@@ -42,6 +42,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('admin.siswa.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.resi.index') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-barcode"></i>
+                                <p>
+                                    Siswa
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>

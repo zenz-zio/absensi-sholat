@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
+            $table->string('nisn')->unique();   // Nomor Induk Siswa Nasional
+            $table->string('kelas');            // contoh: X RPL 1 / 8A
+            $table->string('jurusan');          // contoh: RPL / TKJ / IPA
+            $table->string('id_user');          // relasi user (sementara)
             $table->timestamps();
         });
     }
