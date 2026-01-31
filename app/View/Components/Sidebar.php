@@ -6,6 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+use App\Http\Controllers\Controller;
+use App\Models\Attendance;
+use App\Models\Prayer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class Sidebar extends Component
 {
     /**

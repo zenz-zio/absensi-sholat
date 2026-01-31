@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ResiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiswaController;
 
 Route::get('/', function () {
     return view('layouts.main');
