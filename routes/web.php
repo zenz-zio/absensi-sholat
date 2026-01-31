@@ -22,13 +22,12 @@ Route::put('/resi/edit/{id}', [ResiController::class, 'update'])->name('admin.re
 Route::delete('/resi/delete/{id}', [ResiController::class, 'destroy'])->name('admin.resi.delete');
 Route::get('/resi/qr/{id}', [ResiController::class, 'showQr'])->name('admin.resi.qr');
 
-Route::get('/resi', [SiswaController::class, 'index'])->name('admin.resi.index');
-Route::get('/resi/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
-Route::post('/resi/create', [SiswaController::class, 'store'])->name('admin.siswa.store');
-Route::get('/resi/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
-Route::put('/resi/edit/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
-Route::delete('/resi/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
-Route::get('/resi/qr/{id}', [SiswaController::class, 'showQr'])->name('admin.siswa.qr');
+Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
+Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
+Route::post('/siswa/create', [SiswaController::class, 'store'])->name('admin.siswa.store');
+Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
+Route::put('/siswa/edit/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
+Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('store.register');

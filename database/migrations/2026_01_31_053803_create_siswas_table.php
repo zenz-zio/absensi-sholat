@@ -10,19 +10,13 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {   
+    {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            Schema::create('siswas', function (Blueprint $table) {
-    $table->id();
-    $table->string('nisn')->unique();   // Nomor Induk Siswa Nasional
-    $table->string('kelas');            // contoh: X RPL 1 / 8A
-    $table->string('jurusan'); 
-    $table->string('id-user');          // contoh: RPL / TKJ / IPA
-    $table->timestamps();
-    
-});
-
+            $table->string('nisn')->unique();   // Nomor Induk Siswa Nasional
+            $table->string('kelas');            // contoh: X RPL 1 / 8A
+            $table->string('jurusan');          // contoh: RPL / TKJ / IPA
+            $table->string('id_user');          // relasi user (sementara)
             $table->timestamps();
         });
     }

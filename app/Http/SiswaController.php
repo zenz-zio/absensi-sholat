@@ -20,7 +20,7 @@ class SiswaController extends Controller
     {
         $siswa = Auth::user();
 
-        return view('dashboard.siswa.profil', compact('siswa'));
+        return view('dashboard.admin.siswa.profil', compact('siswa'));
     }
 
     // update profil siswa
