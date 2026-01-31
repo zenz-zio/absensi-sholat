@@ -1,67 +1,160 @@
 @extends('layouts.main')
 
 @section('title', 'Halaman Utama')
+
 @section('content')
-    <div class="row">
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>150</h3>
 
-                    <p>New Orders</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+{{-- ===== 4 CARD RINGKASAN ===== --}}
+<div class="row">
+
+    <!-- Waktu Sholat Terdekat -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h4 id="nextPrayer">Loading...</h4>
+                <p>Sholat Terdekat</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-clock"></i>
             </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Bounce Rate</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>44</h3>
-
-                    <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>65</h3>
-
-                    <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
     </div>
+
+    <!-- Belum Absensi -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3 id="belumAbsensi">0</h3>
+                <p>Belum Absensi</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-times"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sudah Absensi -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3 id="sudahAbsensi">0</h3>
+                <p>Sudah Absensi</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Siswa -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3 id="totalSiswa">0</h3>
+                <p>Total Siswa</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{{-- ===== JADWAL SHOLAT (TIDAK DIHAPUS) ===== --}}
+<div class="row">
+    <div class="col-lg-6 col-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-mosque"></i> Jadwal Sholat Hari Ini
+                </h3>
+            </div>
+
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <tbody>
+                        <tr>
+                            <th>Subuh</th>
+                            <td id="subuh">-</td>
+                        </tr>
+                        <tr>
+                            <th>Dzuhur</th>
+                            <td id="dzuhur">-</td>
+                        </tr>
+                        <tr>
+                            <th>Ashar</th>
+                            <td id="ashar">-</td>
+                        </tr>
+                        <tr>
+                            <th>Maghrib</th>
+                            <td id="maghrib">-</td>
+                        </tr>
+                        <tr>
+                            <th>Isya</th>
+                            <td id="isya">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-footer text-muted text-center">
+                Lokasi: Harau, Sumatera Barat
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const today = new Date().toISOString().split('T')[0];
+
+    fetch(`https://api.aladhan.com/v1/timings/${today}?latitude=-0.227819&longitude=100.626617&method=20`)
+        .then(res => res.json())
+        .then(data => {
+            const t = data.data.timings;
+            const now = new Date();
+
+            // isi tabel jadwal
+            subuh.innerText    = t.Fajr;
+            dzuhur.innerText   = t.Dhuhr;
+            ashar.innerText    = t.Asr;
+            maghrib.innerText  = t.Maghrib;
+            isya.innerText     = t.Isha;
+
+            // cari sholat terdekat
+            const prayers = [
+                { name: 'Subuh', time: t.Fajr },
+                { name: 'Dzuhur', time: t.Dhuhr },
+                { name: 'Ashar', time: t.Asr },
+                { name: 'Maghrib', time: t.Maghrib },
+                { name: 'Isya', time: t.Isha }
+            ];
+
+            let next = 'Selesai Isya';
+            for (let p of prayers) {
+                const [h, m] = p.time.split(':');
+                const pt = new Date();
+                pt.setHours(h, m, 0);
+
+                if (pt > now) {
+                    next = `${p.name} • ${p.time}`;
+                    break;
+                }
+            }
+
+            nextPrayer.innerText = next;
+        });
+
+    // 🔸 Dummy (tinggal ganti dari database)
+    belumAbsensi.innerText = 18;
+    sudahAbsensi.innerText = 22;
+    totalSiswa.innerText   = 40;
+});
+</script>
+@endpush
