@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ResiController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\AbsensiController;
 
 Route::get('/', function () {
     return view('layouts.main');
@@ -28,6 +29,19 @@ Route::post('/siswa/create', [SiswaController::class, 'store'])->name('admin.sis
 Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
 Route::put('/siswa/edit/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
 Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
+
+Route::get('/absensi', [AbsensiController::class, 'index'])->name('admin.absensi.index');
+Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('admin.absensi.create');
+Route::post('/absensi/create', [AbsensiController::class, 'store'])->name('admin.absensi.store');
+Route::get('/absensi/edit/{id}', [AbsensiController::class, 'edit'])->name('admin.absensi.edit');
+Route::put('/absensi/edit/{id}', [AbsensiController::class, 'update'])->name('admin.absensi.update');
+Route::delete('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('admin.absensi.delete');
+
+Route::get('/scan', function () {
+    return view('dashboard.admin.scanQR.scan');
+})->name('admin.scan.index');
+
+
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('store.register');
