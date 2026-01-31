@@ -12,7 +12,7 @@ class SiswaController extends Controller
     public function index()
     {
         $siswas = Siswa::all();
-        return view('siswa.index', compact('siswas'));
+        return view('dashboard.admin.siswa.index', compact('siswas'));
     }
 
     // form tambah siswa
