@@ -5,6 +5,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ResiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('layouts.main');
@@ -34,6 +35,11 @@ Route::post('/register', [AuthController::class, 'register'])->name('store.regis
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('store.login');
+
+Route::get('/user', [UserController::class,'index'])->name('user.dashboard');
+Route::get('/user/riwayat-absensi', [UserController::class, 'riwayat'])
+    ->name('user.riwayat');
+
 
 // Route::get('/', [BukuController::class, 'index']);
 // Route::get('/create', [BukuController::class, 'create']);
