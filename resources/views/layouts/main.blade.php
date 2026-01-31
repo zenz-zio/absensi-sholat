@@ -35,6 +35,8 @@
         href="{{ asset('assets') }}/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet"
         href="{{ asset('assets') }}/AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+        @stack('styles')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -100,6 +102,7 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+
 
     <!-- jQuery -->
     <script src="{{ asset('assets') }}/AdminLTE/plugins/jquery/jquery.min.js"></script>
@@ -171,6 +174,8 @@
             });
         });
     </script>
+
+    @stack('scripts');
 </body>
 
 </html>
