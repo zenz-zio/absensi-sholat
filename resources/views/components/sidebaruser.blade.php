@@ -34,12 +34,13 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="#"
-                       class="nav-link {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+    <a href="{{ route('user.dashboard') }}"
+       class="nav-link {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Dashboard</p>
+    </a>
+</li>
+
 
 
                 <!-- Riwayat Absensi -->
@@ -51,15 +52,21 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('user.qr.absen') }}" class="nav-link">
+        <i class="nav-icon fas fa-qrcode"></i>
+        <p>QR Absensi</p>
+    </a>
+</li>
 
-                <!-- Profil -->
+                 <!-- Profil -->
                 <li class="nav-item">
-                    <a href="#"
-                       class="nav-link {{ request()->routeIs('user.profile') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Profil</p>
-                    </a>
-                </li>
+    <a href="{{ route('user.profil') }}" class="nav-link {{ request()->routeIs('user.profil') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-user"></i>
+        <p>Profil</p>
+    </a>
+</li>
+
 
                 <!-- Logout -->
                 <li class="nav-item">

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class UserController extends Controller
 {
@@ -15,4 +18,15 @@ class UserController extends Controller
     {
         return view('dashboard.user.riwayat');
     }
+
+    public function profil()
+    {
+        return view('dashboard.user.profil');
+    }
+
+    public function editProfil()
+    {
+        return view('dashboard.user.edit-profil');
+    }
+
 }
