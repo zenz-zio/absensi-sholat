@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_siswa');
+            $table->integer('id_siswa')->nullable();
             $table->string('nisn')->unique();   // Nomor Induk Siswa Nasional
-            $table->string('kelas');            // contoh: X RPL 1 / 8A
-            $table->string('jurusan');          // contoh: RPL / TKJ / IPA
+            $table->string('kelas')->nullable();            // contoh: X RPL 1 / 8A
+            $table->string('jurusan')->nullable();          // contoh: RPL / TKJ / IPA
             $table->string('qr_code')->nullable();
             $table->string('emergency_code')->nullable();
             $table->timestamp('qr_expires_at')->nullable();
