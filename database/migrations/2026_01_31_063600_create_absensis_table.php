@@ -10,26 +10,15 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-
-            // relasi manual (tanpa foreignId)
-            $table->unsignedBigInteger('siswa_id');
-
+            $table->integer('id_recorder');
+            $table->integer('id_siswa');
             $table->date('tanggal');
-
-            $table->enum('status', [
-                'hadir',
-                'terlambat',
-                'izin',
-                'sakit',
-                'tidak_hadir'
-            ]);
-
+            $table->enum('status', ['Sholat', 'Tidak Sholat']);
             $table->time('jam_masuk')->nullable();
             $table->text('keterangan')->nullable();
-
-                $table->timestamps();
-            });
-        }
+            $table->timestamps();
+        });
+    }
 
     public function down(): void
     {
