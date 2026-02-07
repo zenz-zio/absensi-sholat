@@ -3,67 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class SiswaController extends Controller
 {
-    //{
-    // tampilkan data siswa
-    public function index()
+    public function generate()
     {
-        $siswas = Siswa::all();
-        return view('dashboard.admin.siswa.index', compact('siswas'));
-    }
+        $userId = 1;
 
-    // form tambah siswa
-    public function create()
-    {
-        return view('siswa.create');
-    }
+        $siswa = Siswa::where('id_siswa', $userId)->first();
 
-    // simpan data siswa
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nisn'    => 'required|unique:siswas,nisn',
-            'kelas'   => 'required',
-            'jurusan' => 'required',
-        ]);
+        if (!$siswa) {
+            return redirect()->back()->with('error', 'Siswa tidak ditemukan');
+        }
 
-        Siswa::create($request->all());
+        $now = Carbon::now();
+        $qrExpired = Carbon::parse($siswa->qr_expires_at);
 
-        return redirect()->route('siswa.index')
-                         ->with('success', 'Data siswa berhasil ditambahkan');
-    }
+        if ($now->greaterThanOrEqualTo($qrExpired) || is_null($siswa->qr_code)) {
+            $randomQr = Str::random(32);
+            $emergencyCode = Str::upper(Str::random(6));
+            $expiredTime = Carbon::now()->addHour();
 
-    // form edit siswa
-    public function edit(Siswa $siswa)
-    {
-        return view('siswa.edit', compact('siswa'));
-    }
+            $siswa->update([
+                'qr_code' => $randomQr,
+                'emergency_code' => $emergencyCode,
+                'qr_expires_at' => $expiredTime,
+            ]);
+        } else {
+            $randomQr = $siswa->qr_code;
+            $emergencyCode = $siswa->emergency_code;
+            $expiredTime = $qrExpired;
+        }
 
-    // update data siswa
-    public function update(Request $request, Siswa $siswa)
-    {
-        $request->validate([
-            'nisn'    => 'required|unique:siswas,nisn,' . $siswa->id,
-            'kelas'   => 'required',
-            'jurusan' => 'required',
-        ]);
+        $qrData = $randomQr;
+        $kode = $emergencyCode;
+        $expired = $expiredTime->format('d-m-Y H:i:s');
+        $expiredTimestamp = $expiredTime->getTimestamp() * 1000;
 
-        $siswa->update($request->all());
-
-        return redirect()->route('siswa.index')
-                         ->with('success', 'Data siswa berhasil diupdate');
-    }
-
-    // hapus data siswa
-    public function destroy(Siswa $siswa)
-    {
-        $siswa->delete();
-
-        return redirect()->route('siswa.index')
-                         ->with('success', 'Data siswa berhasil dihapus');
+        return view('qr-generate', compact('qrData', 'kode', 'expired', 'expiredTimestamp'));
     }
 }
-

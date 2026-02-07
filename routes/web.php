@@ -50,7 +50,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('store.regis
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('store.login');
 
-Route::get('/user', [UserController::class,'index'])
+Route::get('/user', [UserController::class, 'index'])
     ->name('user.dashboard');
 
 Route::get('/user/riwayat-absensi', [UserController::class, 'riwayat'])
@@ -65,12 +65,7 @@ Route::get('/user/profil/edit', [UserController::class, 'editProfil'])
 Route::post('/user/profil/edit', [UserController::class, 'editProfil'])
     ->name('user.profil.update');
 
-Route::get('/user/qr-absen', [UserController::class, 'qrAbsen'])
-    ->name('user.qr.absen');
-
-Route::get('/user/qr-absen', [UserController::class, 'qrAbsen']);
-Route::get('/user/qr-absen', [UserController::class, 'qrAbsen'])
-    ->name('user.qr.absen');
+Route::get('/user/qr-absen', [SiswaController::class, 'generate'])->name('user.qr.absen');
 
 
 
