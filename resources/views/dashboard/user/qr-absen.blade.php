@@ -1,25 +1,50 @@
 @extends('layouts.app')
 
-@section('title','QR Absensi')
-
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-4">
 
-        <div class="card text-center">
-            <div class="card-body">
+<div class="container-fluid">
 
-                <h5 class="mb-3">QR Absensi</h5>
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
 
-                {!! QrCode::size(250)->generate($data) !!}
+            <h3 class="mb-4">QR Absensi Generator</h3>
 
-                <p class="mt-3 text-muted">
-                    {{ now()->format('d M Y H:i') }}
-                </p>
-
+            <div class="mb-2">
+                <strong>Kode Darurat:</strong>
+                <span class="badge bg-danger">{{ $kode }}</span>
             </div>
-        </div>
 
+            <div class="mb-2">
+                <strong>Berlaku Sampai:</strong>
+                <span class="badge bg-warning text-dark">{{ $expired }}</span>
+            </div>
+
+            <div class="mb-3">
+                Tunggu: <span id="countdown">60</span> detik
+            </div>
+
+            <div class="mb-3">
+                {!! QrCode::size(250)->generate($qrData) !!}
+            </div>
+
+            <a href="#" class="btn btn-primary">
+                Download QR Code
+            </a>
+
+        </div>
     </div>
+
 </div>
+
+<script>
+let time = 60;
+
+setInterval(() => {
+    if(time > 0){
+        time--;
+        document.getElementById("countdown").innerText = time;
+    }
+}, 1000);
+</script>
+
 @endsection

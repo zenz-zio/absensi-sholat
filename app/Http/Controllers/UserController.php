@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-
 class UserController extends Controller
 {
     public function index()
@@ -29,4 +28,12 @@ class UserController extends Controller
         return view('dashboard.user.edit-profil');
     }
 
+    public function qrAbsen()
+    {
+        return view('dashboard.user.qr-absen', [
+            'kode' => '7ZXCV',
+            'expired' => Carbon::now()->addHour()->format('d/m/Y h:i:s A'),
+            'qrData' => encrypt(Auth::id() ?? 1)
+        ]);
+    }
 }

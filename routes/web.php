@@ -68,6 +68,11 @@ Route::post('/user/profil/edit', [UserController::class, 'editProfil'])
 Route::get('/user/qr-absen', [UserController::class, 'qrAbsen'])
     ->name('user.qr.absen');
 
+Route::get('/user/qr-absen', [UserController::class, 'qrAbsen']);
+Route::get('/user/qr-absen', [UserController::class, 'qrAbsen'])
+    ->name('user.qr.absen');
+
+
 
 
 
