@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
@@ -15,7 +16,7 @@ class AbsensiController extends Controller
         ]);
 
         Absensi::create([
-            'id_recorder' => auth()->id(),
+            'id_recorder' => Auth::id(),
             'id_siswa' => $request->id_siswa,
             'tanggal' => now()->toDateString(),
             'status' => $request->status,
