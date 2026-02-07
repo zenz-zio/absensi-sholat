@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-        });
-    }
+                $table->timestamps();
+            });
+        }
 
     /**
      * Reverse the migrations.
