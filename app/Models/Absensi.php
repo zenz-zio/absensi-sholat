@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Absensi extends Model
 {
-    //{
     protected $table = 'absensis';
 
     protected $fillable = [
-        'siswa_id',
+        'id_recorder',
+        'id_siswa',
         'tanggal',
         'status',
         'jam_masuk',
@@ -19,13 +19,15 @@ class Absensi extends Model
 
     protected $casts = [
         'tanggal' => 'date',
-        'jam_masuk' => 'datetime:H:i',
     ];
 
-    // relasi ke siswa
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->belongsTo(Siswa::class, 'id_siswa');
+    }
+
+    public function recorder()
+    {
+        return $this->belongsTo(User::class, 'id_recorder');
     }
 }
-
