@@ -4,9 +4,25 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary">
-                <i class="nav-icon fas fa-plus"></i> Tambah Siswa
-            </a>
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Data Siswa</h3>
+                <div>
+                    <!-- Tombol Aksi Massal yang Sederhana -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" onclick="updateAllStatus('sudah')">
+                            <i class="fas fa-check-circle"></i> Sudah Sholat Semua
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="updateAllStatus('belum')">
+                            <i class="fas fa-times-circle"></i> Belum Sholat Semua
+                        </button>
+                    </div>
+
+                    <!-- Tombol Tambah Siswa -->
+                    <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary ml-2">
+                        <i class="nav-icon fas fa-plus"></i> Tambah Siswa
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="card-body">
@@ -15,33 +31,40 @@
                     <tr>
                         <th>#</th>
                         <th>NISN</th>
+                        <th>Nama</th>
                         <th>Kelas</th>
                         <th>Jurusan</th>
-                        <th>Aksi</th>
+                        <th>Status Sholat Hari Ini</th>
                     </tr>
                 </thead>
 
-                @php $no = 1; @endphp
+                @php
+                    $no = 1;
+                @endphp
+
                 <tbody>
                     @foreach ($siswas as $item)
+                        @php
+                            // Untuk contoh, kita buat random status
+                            $hasSholatToday = $item->status_sholat ?? false;
+                        @endphp
+
                         <tr>
                             <td>{{ $no++ }}</td>
                             <td>{{ $item->nisn }}</td>
+                            <td>{{ $item->nama ?? 'Nama tidak tersedia' }}</td>
                             <td>{{ $item->kelas }}</td>
                             <td>{{ $item->jurusan }}</td>
                             <td>
-                                <a href="{{ route('admin.siswa.edit', $item->id) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-
-                                <form action="{{ route('admin.siswa.destroy', $item->id) }}" method="POST" class="d-inline"
-                                    onsubmit="return confirm('Yakin mau hapus data siswa ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </form>
+                                @if ($hasSholatToday)
+                                    <span class="badge badge-success">
+                                        <i class="fas fa-check-circle"></i> Sudah Sholat
+                                    </span>
+                                @else
+                                    <span class="badge badge-danger">
+                                        <i class="fas fa-times-circle"></i> Belum Sholat
+                                    </span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -51,12 +74,28 @@
                     <tr>
                         <th>#</th>
                         <th>NISN</th>
+                        <th>Nama</th>
                         <th>Kelas</th>
                         <th>Jurusan</th>
-                        <th>Aksi</th>
+                        <th>Status Sholat Hari Ini</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
+
+        <!-- Card Footer dengan Statistik Sederhana -->
+        <div class="card-footer">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h5>Total Siswa: <span class="badge badge-info">{{ count($siswas) }}</span></h5>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Form tersembunyi untuk update massal -->
+    <form id="massUpdateForm" method="POST" action="{{ route('admin.siswa.update-massal') }}" style="display: none;">
+        @csrf
+        <input type="hidden" name="status" id="massStatus" value="">
+    </form>
 @endsection

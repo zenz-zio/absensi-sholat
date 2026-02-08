@@ -29,7 +29,8 @@ Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.sis
 Route::post('/siswa/create', [SiswaController::class, 'store'])->name('admin.siswa.store');
 Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
 Route::put('/siswa/edit/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
-Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
+Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
+Route::post('/siswa/update-massal', [SiswaController::class, 'updateMassal'])->name('admin.siswa.update-massal');
 
 Route::get('/absensi', [AbsensiController::class, 'index'])->name('admin.absensi.index');
 Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('admin.absensi.create');

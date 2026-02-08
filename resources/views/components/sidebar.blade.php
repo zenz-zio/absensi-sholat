@@ -33,15 +33,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.resi.index') }}"
-                                class="nav-link {{ request()->routeIs('admin.resi.index') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-barcode"></i>
-                                <p>
-                                    Resi
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('admin.siswa.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.siswa.index') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-graduate"></i>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
+
     use HasFactory;
 
     protected $fillable = [
@@ -23,8 +24,8 @@ class Siswa extends Model
         'qr_expires_at' => 'datetime',
     ];
 
-    public function user()
+    public function absensi()
     {
-        return $this->belongsTo(User::class, 'id_siswa');
+        return $this->hasMany(Absensi::class, 'id_siswa', 'id');
     }
 }
