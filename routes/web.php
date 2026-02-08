@@ -21,7 +21,7 @@ Route::get('/admin', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
- // Tambahkan nama ini
+// Tambahkan nama ini
 
 Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
 Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
@@ -46,7 +46,7 @@ Route::get('/scan', function () {
 
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('store.register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('store.login');
