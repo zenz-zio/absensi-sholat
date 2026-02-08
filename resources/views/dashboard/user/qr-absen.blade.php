@@ -17,7 +17,7 @@
                                 <i class="fas fa-download"></i>
                             </button>
 
-                            <form action="{{ route('siswa.force-generate') }}" method="POST" class="d-inline">
+                            <form action="{{ route('user.force-generate') }}" method="POST" class="d-inline">
                                 @csrf
                                 <button class="btn btn-sm btn-warning"
                                     onclick="return confirm('QR lama akan tidak berlaku. Lanjutkan?')">
@@ -50,7 +50,7 @@
                                 Silakan buat QR untuk melakukan absensi hari ini.
                             </p>
 
-                            <form action="{{ route('siswa.force-generate') }}" method="POST">
+                            <form action="{{ route('user.force-generate') }}" method="POST">
                                 @csrf
                                 <button class="btn btn-primary btn-lg px-5">
                                     <i class="fas fa-plus mr-2"></i>Buat QR Sekarang
