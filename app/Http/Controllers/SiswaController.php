@@ -64,7 +64,7 @@ class SiswaController extends Controller
         $expiredTime = Carbon::now()->addHour();
 
         $siswa->update([
-            'qr_code' => Str::random(32),
+            'qr_code' => Str::random(200),
             'emergency_code' => Str::upper(Str::random(6)),
             'qr_expires_at' => $expiredTime,
         ]);
