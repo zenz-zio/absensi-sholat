@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResiController;
-use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AbsensiController;
 
 Route::post('/login', [AuthController::class, 'login.process'])
@@ -50,6 +51,19 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('store.login');
+
+Route::middleware(['administrator'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/admin/petugas', function () {
+        return view('admin.petugas');
+    });
+});
+
+
+    Route::get('/home', [HomeController::class, 'index']);
 
 Route::get('/user', [UserController::class, 'index'])
     ->name('user.dashboard');
