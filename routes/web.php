@@ -8,6 +8,9 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsensiController;
 
+Route::post('/login', [AuthController::class, 'login.process'])
+    ->name('login.process');
+
 Route::get('/', function () {
     return view('layouts.main');
 });
@@ -16,13 +19,9 @@ Route::get('/admin', function () {
     return view('dashboard.admin.index');
 })->name('admin.dashboard');
 
-Route::get('/resi', [ResiController::class, 'index'])->name('admin.resi.index');
-Route::get('/resi/create', [ResiController::class, 'create'])->name('admin.resi.create');
-Route::post('/resi/create', [ResiController::class, 'store'])->name('admin.resi.store');
-Route::get('/resi/edit/{id}', [ResiController::class, 'edit'])->name('admin.resi.edit');
-Route::put('/resi/edit/{id}', [ResiController::class, 'update'])->name('admin.resi.update');
-Route::delete('/resi/delete/{id}', [ResiController::class, 'destroy'])->name('admin.resi.delete');
-Route::get('/resi/qr/{id}', [ResiController::class, 'showQr'])->name('admin.resi.qr');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+ // Tambahkan nama ini
 
 Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
 Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
@@ -30,6 +29,7 @@ Route::post('/siswa/create', [SiswaController::class, 'store'])->name('admin.sis
 Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
 Route::put('/siswa/edit/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
 Route::delete('/siswa/delete/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
+
 Route::post('/siswa/update-massal', [SiswaController::class, 'updateMassal'])->name('admin.siswa.update-massal');
 
 Route::get('/absensi', [AbsensiController::class, 'index'])->name('admin.absensi.index');

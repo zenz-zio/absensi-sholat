@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> @yield('title') | Dashboard</title>
 
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+{{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
 
     <!-- Google Font: Source Sans Pro -->
