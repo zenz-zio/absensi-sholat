@@ -66,12 +66,7 @@ Route::post('/user/profil/edit', [UserController::class, 'editProfil'])
     ->name('user.profil.update');
 
 Route::get('/user/qr-absen', [SiswaController::class, 'generate'])->name('user.qr.absen');
-
-
-
-
-
-
+Route::post('/force-generate-qr', [SiswaController::class, 'forceGenerate'])->name('siswa.force-generate');
 
 
 // Route::get('/', [BukuController::class, 'index']);

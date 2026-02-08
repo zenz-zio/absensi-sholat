@@ -1,204 +1,187 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid py-4">
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="mb-0 font-weight-bold text-primary">
-                        <i class="fas fa-qrcode mr-2"></i>QR Absensi Generator
-                    </h4>
-                    <button onclick="downloadQR()" class="btn btn-primary">
-                        <i class="fas fa-download mr-1"></i>Download QR
-                    </button>
-                </div>
-            </div>
-        </div>
-
+    <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card shadow-lg border-0">
-                    <div class="card-header bg-gradient-primary text-white py-3">
-                        <h5 class="mb-0 text-center">
-                            <i class="fas fa-shield-alt mr-2"></i>Kode Absensi Sekolah
-                        </h5>
+            <div class="col-lg-5">
+
+                {{-- HEADER --}}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0 text-primary font-weight-bold">
+                        <i class="fas fa-qrcode mr-2"></i>QR Absensi
+                    </h4>
+
+                    @if ($qrMasihValid)
+                        <div>
+                            <button onclick="downloadQR()" class="btn btn-sm btn-outline-primary mr-1">
+                                <i class="fas fa-download"></i>
+                            </button>
+
+                            <form action="{{ route('siswa.force-generate') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button class="btn btn-sm btn-warning"
+                                    onclick="return confirm('QR lama akan tidak berlaku. Lanjutkan?')">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- ALERT --}}
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle mr-1"></i>{{ session('success') }}
                     </div>
+                @endif
 
-                    <div class="card-body p-4">
-                        <div class="text-center mb-4">
-                            <div class="qr-container mx-auto mb-3 p-3 bg-light rounded-lg" style="max-width: 280px;">
-                                <div class="qr-inner p-2 bg-white rounded">
-                                    {!! QrCode::size(250)->margin(2)->color(21, 87, 36)->generate($qrData) !!}
-                                </div>
+                {{-- CARD --}}
+                <div class="card shadow border-0">
+                    <div class="card-body text-center p-5">
+
+                        {{-- ======================
+                        MODE: BELUM ADA QR
+                    ======================= --}}
+                        @if (!$qrMasihValid)
+                            <i class="fas fa-qrcode fa-5x text-muted mb-4"></i>
+
+                            <h5 class="mb-2">QR Absensi Belum Dibuat</h5>
+                            <p class="text-muted mb-4">
+                                Silakan buat QR untuk melakukan absensi hari ini.
+                            </p>
+
+                            <form action="{{ route('siswa.force-generate') }}" method="POST">
+                                @csrf
+                                <button class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-plus mr-2"></i>Buat QR Sekarang
+                                </button>
+                            </form>
+
+                            {{-- ======================
+                        MODE: QR AKTIF
+                    ======================= --}}
+                        @else
+                            <div class="qr-box mb-4">
+                                {!! QrCode::size(220)->margin(2)->generate($qrData) !!}
                             </div>
 
-                            <div class="mb-3">
-                                <span class="badge badge-pill badge-light px-3 py-2 shadow-sm">
-                                    <i class="far fa-clock mr-2"></i>
-                                    <span id="countdown" class="font-weight-bold">--:--:--</span>
-                                </span>
-                            </div>
-                        </div>
+                            <span class="badge badge-success px-3 py-2 mb-3">
+                                <i class="fas fa-check-circle mr-1"></i>QR AKTIF
+                            </span>
 
-                        <div class="row mb-4">
-                            <div class="col-md-6 mb-3">
-                                <div class="card border-danger shadow-sm h-100">
-                                    <div class="card-body text-center">
-                                        <h6 class="card-title text-danger">
-                                            <i class="fas fa-exclamation-triangle mr-2"></i>Kode Darurat
-                                        </h6>
-                                        <div class="display-4 font-weight-bold text-danger mb-2">
-                                            {{ $kode }}
-                                        </div>
-                                        <small class="text-muted">Gunakan jika QR tidak terbaca</small>
-                                    </div>
-                                </div>
-                            </div>
+                            <h3 class="text-danger mt-3 mb-1">{{ $kode }}</h3>
+                            <small class="text-muted d-block mb-3">Kode Darurat</small>
 
-                            <div class="col-md-6 mb-3">
-                                <div class="card border-warning shadow-sm h-100">
-                                    <div class="card-body text-center">
-                                        <h6 class="card-title text-warning">
-                                            <i class="fas fa-hourglass-end mr-2"></i>Berlaku Sampai
-                                        </h6>
-                                        <div class="font-weight-bold text-warning mb-2" style="font-size: 1.1rem;">
-                                            {{ $expired }}
-                                        </div>
-                                        <small class="text-muted">QR akan expired setelah waktu habis</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <p class="mb-1 font-weight-bold">Berlaku Sampai</p>
+                            <p class="text-warning mb-3">{{ $expired }}</p>
 
-                        <div class="mb-4">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small>Waktu Tersisa</small>
-                                <small><span id="percentage">100%</span></small>
-                            </div>
                             <div class="progress" style="height: 8px;">
-                                <div id="timeProgress" class="progress-bar bg-gradient-primary" role="progressbar"
-                                    style="width: 100%"></div>
+                                <div id="timeProgress" class="progress-bar bg-primary"></div>
                             </div>
-                        </div>
 
-                        <div class="alert alert-info border-0 shadow-sm">
-                            <h6 class="alert-heading">
-                                <i class="fas fa-info-circle mr-2"></i>Petunjuk Penggunaan
-                            </h6>
-                            <ul class="mb-0 pl-3">
-                                <li>QR Code ini hanya valid selama 1 jam</li>
-                                <li>Scan QR code untuk absensi masuk/pulang</li>
-                                <li>Kode darurat digunakan jika QR tidak terbaca</li>
-                                <li>Setelah expired, QR tidak dapat digunakan lagi</li>
-                            </ul>
-                        </div>
+                            <small id="countdown" class="text-muted d-block mt-2">
+                                --:--:--
+                            </small>
+                        @endif
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
+    {{-- ======================
+    JAVASCRIPT
+====================== --}}
     <script>
-        const expiredAt = {{ $expiredTimestamp }};
+        const expiredAt = {{ $expiredTimestamp ?? 'null' }};
 
         function updateCountdown() {
+            if (!expiredAt) return;
+
             const now = Date.now();
             const distance = expiredAt - now;
 
-            if (distance < 0) {
-                document.getElementById("countdown").innerHTML = "EXPIRED";
-                document.getElementById("timeProgress").style.width = "0%";
-                document.getElementById("percentage").innerHTML = "0%";
-                document.getElementById("timeProgress").className = "progress-bar bg-secondary";
+            if (distance <= 0) {
+                location.reload();
                 return;
             }
 
-            const hours = Math.floor(distance / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const h = Math.floor(distance / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-            const timeString =
-                hours.toString().padStart(2, '0') + ":" +
-                minutes.toString().padStart(2, '0') + ":" +
-                seconds.toString().padStart(2, '0');
+            document.getElementById('countdown').innerHTML =
+                String(h).padStart(2, '0') + ':' +
+                String(m).padStart(2, '0') + ':' +
+                String(s).padStart(2, '0');
 
-            document.getElementById("countdown").innerHTML = timeString;
+            const percent = Math.max(0, Math.min(100, (distance / (60 * 60 * 1000)) * 100));
+            document.getElementById('timeProgress').style.width = percent + '%';
+        }
 
-            const totalTime = 60 * 60 * 1000;
-            const percentage = Math.max(0, Math.min(100, (distance / totalTime) * 100));
-            document.getElementById("timeProgress").style.width = percentage + "%";
-            document.getElementById("percentage").innerHTML = Math.round(percentage) + "%";
-
-            if (percentage < 20) {
-                document.getElementById("timeProgress").className = "progress-bar bg-gradient-danger";
-            } else if (percentage < 50) {
-                document.getElementById("timeProgress").className = "progress-bar bg-gradient-warning";
-            } else {
-                document.getElementById("timeProgress").className = "progress-bar bg-gradient-primary";
-            }
+        if (expiredAt) {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         }
 
         function downloadQR() {
-            const qrElement = document.querySelector('.qr-inner svg');
-            const svgData = new XMLSerializer().serializeToString(qrElement);
+            const svg = document.querySelector('.qr-box svg');
+            if (!svg) {
+                alert('QR belum tersedia');
+                return;
+            }
+
+            const serializer = new XMLSerializer();
+            const source = serializer.serializeToString(svg);
+
+            const img = new Image();
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            const img = new Image();
 
             img.onload = function() {
                 canvas.width = img.width;
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0);
 
-                const pngFile = canvas.toDataURL('image/png');
-                const downloadLink = document.createElement('a');
-                downloadLink.download = `QR-Absensi-{{ $kode }}.png`;
-                downloadLink.href = pngFile;
-                downloadLink.click();
+                const a = document.createElement('a');
+                a.download = 'QR-Absensi.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
             };
 
-            img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+            img.src = 'data:image/svg+xml;base64,' + btoa(source);
         }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
     </script>
 
+    {{-- ======================
+    STYLE
+====================== --}}
     <style>
         .card {
-            border-radius: 15px;
+            border-radius: 18px;
+        }
+
+        .qr-box {
+            display: inline-block;
+            padding: 16px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+        }
+
+        .btn-lg {
+            border-radius: 50px;
+        }
+
+        .progress {
+            border-radius: 10px;
             overflow: hidden;
         }
 
-        .card-header {
-            border-radius: 15px 15px 0 0 !important;
-        }
-
-        .qr-container {
-            border: 2px dashed #dee2e6;
-            transition: all 0.3s;
-        }
-
-        .qr-container:hover {
-            transform: scale(1.02);
-            border-color: #4e73df;
-        }
-
         .progress-bar {
-            border-radius: 4px;
-            transition: width 1s linear, background-color 1s linear;
-        }
-
-        .bg-gradient-primary {
-            background: linear-gradient(45deg, #4e73df, #224abe);
-        }
-
-        .bg-gradient-warning {
-            background: linear-gradient(45deg, #f6c23e, #dda20a);
-        }
-
-        .bg-gradient-danger {
-            background: linear-gradient(45deg, #e74a3b, #be2617);
+            transition: width .8s linear;
         }
     </style>
 @endsection
