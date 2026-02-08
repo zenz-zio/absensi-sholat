@@ -8,18 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function home()
     {
         if (Auth::check()) {
-            $level = Auth::user()->level;
-            if ($level == 'administrator') {
+            $role = Auth::user()->role;
+            if ($role == 'guru') {
                 return redirect()->route('admin.dashboard');
-            } else if ($level == 'petugas') {
-                return redirect()->route('petugas.dashboard');
-            } else if ($level == 'peminjam') {
-                return redirect()->route('peminjam.dashboard');
+            } elseif ($role == 'siswa') {
+                return redirect()->route('user.dashboard');
             } else {
-                return redirect('home');
+                return redirect('login');
             }
         } else {
             return redirect('home');
