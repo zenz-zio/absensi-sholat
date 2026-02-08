@@ -118,4 +118,107 @@
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
 @endsection
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let html5QrCode;
+    let currentCameraId = null;
+    let cameras = [];
+    let cameraIndex = 0;
+
+    const startBtn = document.getElementById("startScanBtn");
+    const switchBtn = document.getElementById("switchCameraBtn");
+    const overlay = document.getElementById("scannerOverlay");
+
+    function showOverlay(show = true) {
+        overlay.style.display = show ? "flex" : "none";
+    }
+
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toastContainer");
+
+        const toast = document.createElement("div");
+        toast.className = `toast ${type} show`;
+        toast.innerHTML = `<span>${message}</span>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    function onScanSuccess(decodedText) {
+        showOverlay(true);
+
+        document.getElementById("randomString").value = decodedText;
+
+        setTimeout(() => {
+            showOverlay(false);
+            showToast("QR berhasil discan", "success");
+        }, 800);
+    }
+
+    function onScanFailure(error) {
+        // boleh kosong biar ga spam console
+    }
+
+    async function startScanner(cameraId) {
+        if (!html5QrCode) {
+            html5QrCode = new Html5Qrcode("reader");
+        }
+
+        try {
+            await html5QrCode.start(
+                cameraId,
+                {
+                    fps: 10,
+                    qrbox: 250
+                },
+                onScanSuccess,
+                onScanFailure
+            );
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal membuka kamera", "error");
+        }
+    }
+
+    startBtn.addEventListener("click", async () => {
+        try {
+            cameras = await Html5Qrcode.getCameras();
+
+            if (cameras && cameras.length) {
+                currentCameraId = cameras[cameraIndex].id;
+                await startScanner(currentCameraId);
+
+                if (cameras.length > 1) {
+                    switchBtn.style.display = "inline-block";
+                }
+
+                showToast("Scanner aktif", "success");
+            }
+        } catch (err) {
+            console.error(err);
+            showToast("Tidak bisa akses kamera", "error");
+        }
+    });
+
+    switchBtn.addEventListener("click", async () => {
+        if (!cameras.length) return;
+
+        cameraIndex = (cameraIndex + 1) % cameras.length;
+        currentCameraId = cameras[cameraIndex].id;
+
+        if (html5QrCode) {
+            await html5QrCode.stop();
+            await startScanner(currentCameraId);
+        }
+    });
+
+});
+</script>
