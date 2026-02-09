@@ -17,7 +17,7 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/home', [HomeController::class, 'home'])->name('dashboard');
+    Route::get('/home', [HomeController::class, 'home'])->name('home');
 });
 
 Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
@@ -28,6 +28,8 @@ Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
     Route::get('/scan', function () {
         return view('dashboard.admin.ScanQR.index');
     })->name('scan');
+        return view('dashboard.admin.scanQR.scan');
+    })->name('scan.index');
 
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
