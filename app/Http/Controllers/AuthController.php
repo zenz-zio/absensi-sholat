@@ -17,7 +17,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // VALIDASI
         $credentials = $request->validate(
             [
                 'email' => 'required|email',
@@ -31,16 +30,11 @@ class AuthController extends Controller
             ]
         );
 
-        // PROSES LOGIN
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // CEK ROLE
-            if (Auth::user()->role === 'admin') {
-                return redirect('/admin')->with('success', 'Login admin berhasil');
-            }
-
-            return redirect('/user')->with('success', 'Login berhasil');
+            return redirect()->route('home')
+                ->with('success', 'Login berhasil');
         }
 
         // JIKA GAGAL
@@ -48,6 +42,7 @@ class AuthController extends Controller
             ->withErrors(['email' => 'Email atau password salah'])
             ->withInput();
     }
+
 
     // ================= REGISTER =================
     public function showRegister()
