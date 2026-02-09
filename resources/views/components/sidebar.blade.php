@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.scan.index') }}"
+                            <a href="{{ route('admin.ScanQR.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.scan.index') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-qrcode"></i>
                                 <p>

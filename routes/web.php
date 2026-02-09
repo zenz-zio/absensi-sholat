@@ -23,9 +23,10 @@ Route::middleware('auth')->group(function () {
 Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard.admin.index');
+        
     })->name('dashboard');
     Route::get('/scan', function () {
-        return view('dashboard.admin.scanQR.scan');
+        return view('dashboard.admin.ScanQR.index');
     })->name('scan');
 
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
