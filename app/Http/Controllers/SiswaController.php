@@ -26,12 +26,12 @@ class SiswaController extends Controller
     {
         $userId = Auth::id(); // FIX
 
-        $siswa = Siswa::where('user_id', $userId)->first();
+        $siswa = Siswa::where('id_siswa', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'user_id' => $userId,
-                'nama' => Auth::user()->name
+                'id_siswa' => $userId,
+                'name' => Auth::user()->name
             ]);
         }
 
@@ -66,12 +66,12 @@ class SiswaController extends Controller
     {
         $userId = Auth::id(); // FIX
 
-        $siswa = Siswa::where('user_id', $userId)->first();
+        $siswa = Siswa::where('id_siswa', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'user_id' => $userId,
-                'nama' => Auth::user()->name
+                'id_siswa' => $userId,
+                'name' => Auth::user()->name
             ]);
         }
 
