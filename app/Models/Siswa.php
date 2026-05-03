@@ -10,9 +10,8 @@ class Siswa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', // WAJIB biar relasi ke users jalan
+        'user_id',
         'nisn',
-        'nama', // tambahin ini biar bisa ditampilkan
         'kelas',
         'jurusan',
         'qr_code',
@@ -24,15 +23,8 @@ class Siswa extends Model
         'qr_expires_at' => 'datetime',
     ];
 
-    // Relasi ke absensi
-    public function absensi()
-    {
-        return $this->hasMany(Absensi::class, 'id_siswa', 'id');
-    }
-
-    // Relasi ke user
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); // kasih foreign key biar jelas
+        return $this->belongsTo(User::class);
     }
 }

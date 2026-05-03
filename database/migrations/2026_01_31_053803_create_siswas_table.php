@@ -13,13 +13,22 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_siswa')->nullable();
-            $table->string('nisn')->nullable();   // Nomor Induk Siswa Nasional
-            $table->string('kelas')->nullable();            // contoh: X RPL 1 / 8A
-            $table->string('jurusan')->nullable();          // contoh: RPL / TKJ / IPA
+
+            // Relasi ke users (WAJIB)
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            // Data utama siswa
+            $table->string('nisn')->unique(); // NISN harus unik
+            $table->string('kelas');
+            $table->string('jurusan');
+
+            // Fitur tambahan (opsional tapi kamu sudah pakai)
             $table->string('qr_code')->nullable();
             $table->string('emergency_code')->nullable();
             $table->timestamp('qr_expires_at')->nullable();
+
             $table->timestamps();
         });
     }
