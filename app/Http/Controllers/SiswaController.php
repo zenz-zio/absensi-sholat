@@ -6,13 +6,12 @@ use App\Models\Siswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth; // penting
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
     public function index()
     {
-        // ambil siswa + relasi user
         $siswas = Siswa::with('user')->get();
 
         foreach ($siswas as $siswa) {
@@ -24,14 +23,17 @@ class SiswaController extends Controller
 
     public function generate()
     {
-        $userId = Auth::id(); // FIX
+        $userId = Auth::id();
 
-        $siswa = Siswa::where('id_siswa', $userId)->first();
+        // 🔥 FIX: pakai user_id
+        $siswa = Siswa::where('user_id', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'id_siswa' => $userId,
-                'name' => Auth::user()->name
+                'user_id' => $userId,
+                'nisn' => '-', // sementara
+                'kelas' => '-',
+                'jurusan' => '-',
             ]);
         }
 
@@ -64,14 +66,17 @@ class SiswaController extends Controller
 
     public function forceGenerate()
     {
-        $userId = Auth::id(); // FIX
+        $userId = Auth::id();
 
-        $siswa = Siswa::where('id_siswa', $userId)->first();
+        // 🔥 FIX: pakai user_id
+        $siswa = Siswa::where('user_id', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'id_siswa' => $userId,
-                'name' => Auth::user()->name
+                'user_id' => $userId,
+                'nisn' => '-',
+                'kelas' => '-',
+                'jurusan' => '-',
             ]);
         }
 
@@ -99,7 +104,7 @@ class SiswaController extends Controller
         $allStudents = Siswa::all();
 
         foreach ($allStudents as $student) {
-            // isi sesuai kebutuhan nanti
+            // nanti isi logika absensi di sini
         }
 
         $message = $status == 'sudah'
