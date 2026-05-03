@@ -19,7 +19,7 @@
 
                     <!-- Tombol Tambah Siswa -->
                     <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary ml-2">
-                        <i class="nav-icon fas fa-plus"></i> Tambah Siswa
+                        <i class="nav-icon fas fa-plus"></i>
                     </a>
                 </div>
             </div>
