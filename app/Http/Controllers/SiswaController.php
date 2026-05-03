@@ -6,35 +6,32 @@ use App\Models\Siswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth; // penting
 
 class SiswaController extends Controller
 {
-
     public function index()
     {
-        // Ambil data siswa
-        $siswas = Siswa::all();
+        // ambil siswa + relasi user
+        $siswas = Siswa::with('user')->get();
 
-        // Jika ingin menampilkan status sholat, Anda perlu menyesuaikan
-        // Contoh sederhana:
         foreach ($siswas as $siswa) {
-            // Ambil status sholat dari database atau default false
-            $siswa->status_sholat = false; // Ganti dengan query database sebenarnya
+            $siswa->status_sholat = false;
         }
 
         return view('dashboard.admin.siswa.index', compact('siswas'));
     }
 
-
     public function generate()
     {
-        $userId = 1;
+        $userId = Auth::id(); // FIX
 
-        $siswa = Siswa::where('id_siswa', $userId)->first();
+        $siswa = Siswa::where('user_id', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'id_siswa' => $userId,
+                'user_id' => $userId,
+                'nama' => Auth::user()->name
             ]);
         }
 
@@ -44,7 +41,6 @@ class SiswaController extends Controller
             $qrMasihValid = Carbon::now()->lt($siswa->qr_expires_at);
         }
 
-        // DEFAULT VALUE (BIAR VIEW AMAN)
         $qrData = null;
         $kode = null;
         $expired = null;
@@ -68,13 +64,14 @@ class SiswaController extends Controller
 
     public function forceGenerate()
     {
-        $userId = 1;
+        $userId = Auth::id(); // FIX
 
-        $siswa = Siswa::where('id_siswa', $userId)->first();
+        $siswa = Siswa::where('user_id', $userId)->first();
 
         if (!$siswa) {
             $siswa = Siswa::create([
-                'id_siswa' => $userId,
+                'user_id' => $userId,
+                'nama' => Auth::user()->name
             ]);
         }
 
@@ -98,29 +95,13 @@ class SiswaController extends Controller
         ]);
 
         $status = $request->status;
-        $today = now()->toDateString();
 
-        // Ambil semua siswa
         $allStudents = Siswa::all();
 
-        // Update status di database
-        // Asumsi: Ada tabel sholat atau absensi dengan kolom 'status'
-        // Contoh sederhana:
         foreach ($allStudents as $student) {
-            // Update atau buat record absensi sholat
-            // Ini hanya contoh, sesuaikan dengan struktur database Anda
-
-            // Jika menggunakan tabel terpisah untuk absensi sholat
-            // Sholat::updateOrCreate(
-            //     ['siswa_id' => $student->id, 'tanggal' => $today],
-            //     ['status' => $status]
-            // );
-
-            // Atau jika ada kolom di tabel siswa untuk status sholat hari ini
-            // $student->update(['status_sholat_hari_ini' => $status]);
+            // isi sesuai kebutuhan nanti
         }
 
-        // Pesan sukses
         $message = $status == 'sudah'
             ? 'Semua siswa berhasil ditandai SUDAH SHOLAT!'
             : 'Semua siswa berhasil ditandai BELUM SHOLAT!';

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon; // FIX biar gak merah
 
 class UserController extends Controller
 {
@@ -20,20 +20,26 @@ class UserController extends Controller
 
     public function profil()
     {
-        return view('dashboard.user.profil');
+        return view('dashboard.user.profil', [
+            'user' => Auth::user() // kirim data user
+        ]);
     }
 
     public function editProfil()
     {
-        return view('dashboard.user.edit-profil');
+        return view('dashboard.user.edit-profil', [
+            'user' => Auth::user()
+        ]);
     }
 
     public function qrAbsen()
     {
+        $userId = Auth::id(); // FIX (gak merah & gak null aneh)
+
         return view('dashboard.user.qr-absen', [
             'kode' => '7ZXCV',
-            'expired' => Carbon::now()->addHour()->format('d/m/Y h:i:s A'),
-            'qrData' => encrypt(Auth::id() ?? 1)
+            'expired' => Carbon::now()->addHour()->format('d/m/Y H:i:s'),
+            'qrData' => encrypt($userId)
         ]);
     }
 }
