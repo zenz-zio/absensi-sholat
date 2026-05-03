@@ -19,24 +19,25 @@
     <form method="POST" action="{{ route('register.process') }}">
         @csrf
 
-        <input type="text" name="name" 
-               class="form-control mb-2 @error('name') is-invalid @enderror" 
-               placeholder="Nama" 
+        <!-- Nama -->
+        <input type="text" name="name"
+               class="form-control mb-2 @error('name') is-invalid @enderror"
+               placeholder="Nama"
                value="{{ old('name') }}" required>
         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-        <input type="text" name="nisn" 
-               class="form-control mb-2 @error('nisn') is-invalid @enderror" 
-               placeholder="NISN"
+        <!-- NISN (DIUBAH JADI ANGKA) -->
+        <input type="number" name="nisn"
+               class="form-control mb-2 @error('nisn') is-invalid @enderror"
+               placeholder="NISN (10 digit)"
                value="{{ old('nisn') }}"
-               maxlength="10"
-               pattern="\d{10}"
-               inputmode="numeric"
-               title="NISN harus 10 digit angka"
+               min="0"
+               oninput="this.value = this.value.slice(0,10)"
                required>
         @error('nisn') <div class="invalid-feedback">{{ $message }}</div> @enderror
-        
-        <select name="kelas" 
+
+        <!-- Kelas -->
+        <select name="kelas"
                 class="form-select mb-2 @error('kelas') is-invalid @enderror" required>
             <option value="">Pilih Kelas</option>
             <option value="10" {{ old('kelas')=='10'?'selected':'' }}>Kelas 10</option>
@@ -45,7 +46,8 @@
         </select>
         @error('kelas') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-        <select name="jurusan" 
+        <!-- Jurusan -->
+        <select name="jurusan"
                 class="form-select mb-2 @error('jurusan') is-invalid @enderror" required>
             <option value="">Pilih Jurusan</option>
             <option value="IPA" {{ old('jurusan')=='IPA'?'selected':'' }}>IPA</option>
@@ -55,19 +57,22 @@
         </select>
         @error('jurusan') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-        <input type="email" name="email" 
-               class="form-control mb-2 @error('email') is-invalid @enderror" 
-               placeholder="Email" 
+        <!-- Email -->
+        <input type="email" name="email"
+               class="form-control mb-2 @error('email') is-invalid @enderror"
+               placeholder="Email"
                value="{{ old('email') }}" required>
         @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-        <input type="password" name="password" 
-               class="form-control mb-2 @error('password') is-invalid @enderror" 
+        <!-- Password -->
+        <input type="password" name="password"
+               class="form-control mb-2 @error('password') is-invalid @enderror"
                placeholder="Password" required>
         @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
 
-        <input type="password" name="password_confirmation" 
-               class="form-control mb-3" 
+        <!-- Konfirmasi Password -->
+        <input type="password" name="password_confirmation"
+               class="form-control mb-3"
                placeholder="Konfirmasi Password" required>
 
         <button class="btn btn-primary w-100">Daftar</button>
