@@ -38,11 +38,11 @@
                     </tr>
                     <tr>
                         <th>NIS / Username</th>
-                        <td>123456</td>
+                        <td>73748676</td>
                     </tr>
                     <tr>
                         <th>Kelas</th>
-                        <td>XI RPL</td>
+                        <td>XI PPLG 2</td>
                     </tr>
                 </table>
             </div>

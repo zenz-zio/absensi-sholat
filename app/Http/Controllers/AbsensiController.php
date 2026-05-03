@@ -35,4 +35,5 @@ class AbsensiController extends Controller
 
         return view('dashboard.admin.absensi.index', compact('absensis'));
     }
+    
 }

@@ -7,29 +7,26 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\UserController;
 
-// Route::get('/', function () {
-//     return view('layouts.main');
-// })->name('home');
-
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('store.login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'home'])->name('home');
 });
 
 Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard.admin.index');
-        
     })->name('dashboard');
+
     Route::get('/scan', function () {
-        return view('dashboard.admin.ScanQR.index');
-    })->name('scan');
-        return view('dashboard.admin.scanQR.scan');
-    })->name('scan.index');
+    return view('dashboard.admin.scanQR.scan');
+})->name('ScanQR.index');
+
 
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
@@ -47,8 +44,7 @@ Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
     Route::delete('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('absensi.delete');
 });
 
-
-Route::prefix('siswa')->name('user.')->middleware('siswa')->group(function () {
+Route::prefix('siswa')->name('user.')->middleware('auth','siswa')->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::get('/riwayat-absensi', [UserController::class, 'riwayat'])->name('riwayat');
     Route::get('/profil', [UserController::class, 'profil'])->name('profil');

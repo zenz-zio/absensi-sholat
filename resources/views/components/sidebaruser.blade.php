@@ -70,17 +70,18 @@
 
                 <!-- Logout -->
                 <li class="nav-item">
-                    <a href="#"
-                       class="nav-link text-danger"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
+    <a href="#"
+       class="nav-link text-danger"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="nav-icon fas fa-sign-out-alt"></i>
+        <p>Logout</p>
+    </a>
 
-                    <form id="logout-form" action="#" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
+</li>
+
 
             </ul>
         </nav>
