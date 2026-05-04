@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,7 +16,16 @@ class UserController extends Controller
 
     public function riwayat()
     {
-        return view('dashboard.user.riwayat');
+        $absensis = Absensi::with(['siswa.user'])
+            ->whereHas('siswa', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->latest('tanggal')
+            ->get();
+
+        return view('dashboard.user.riwayat', [
+            'absensis' => $absensis
+        ]);
     }
 
     public function profil()
