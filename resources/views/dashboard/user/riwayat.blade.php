@@ -1,71 +1,66 @@
 @extends('layouts.app')
-
-@section('title', 'Riwayat Absensi')
+@section('title', 'Data Absensi')
 
 @section('content')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Data Absensi Sholat Siswa</h3>
+        </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card card-primary card-outline">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-history"></i> Riwayat Absensi Sholat
-                </h3>
-            </div>
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Siswa</th>
+                        <th>Kelas</th>
+                        <th>Tanggal</th>
+                        <th>Jam Sholat</th>
+                        <th>Status</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
 
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                    <thead>
+                <tbody>
+                    @foreach ($absensis as $index => $item)
                         <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Sholat</th>
-                            <th>Waktu Absen</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            <td>{{ $index + 1 }}</td>
 
-                        {{-- Dummy data (nanti ganti dari DB) --}}
-                        <tr>
-                            <td>1</td>
-                            <td>31-01-2026</td>
-                            <td>Subuh</td>
-                            <td>05:10</td>
+                            {{-- Nama dari users lewat accessor --}}
+                            <td>{{ $item->siswa->nama ?? '-' }}</td>
+
+                            <td>{{ $item->siswa->kelas ?? '-' }}</td>
+
+                            {{-- karena sudah di-cast, gak perlu Carbon parse --}}
+                            <td>{{ $item->tanggal ? $item->tanggal->format('d-m-Y') : '-' }}</td>
+
+                            <td>{{ $item->jam_masuk ?? '-' }}</td>
+
                             <td>
-                                <span class="badge badge-success">Tepat Waktu</span>
+                                @if ($item->status == 'Sholat')
+                                    <span class="badge bg-success">Sudah Sholat</span>
+                                @else
+                                    <span class="badge bg-danger">Tidak Sholat</span>
+                                @endif
                             </td>
+
+                            <td>{{ $item->keterangan ?? '-' }}</td>
                         </tr>
+                    @endforeach
+                </tbody>
 
-                        <tr>
-                            <td>2</td>
-                            <td>31-01-2026</td>
-                            <td>Dzuhur</td>
-                            <td>12:45</td>
-                            <td>
-                                <span class="badge badge-warning">Telat</span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>30-01-2026</td>
-                            <td>Maghrib</td>
-                            <td>18:32</td>
-                            <td>
-                                <span class="badge badge-success">Tepat Waktu</span>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="card-footer text-muted">
-                Menampilkan riwayat absensi sholat Anda
-            </div>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama Siswa</th>
+                        <th>Kelas</th>
+                        <th>Tanggal</th>
+                        <th>Jam Sholat</th>
+                        <th>Status</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
-</div>
-
 @endsection
