@@ -50,23 +50,19 @@
                         @endphp
 
                         <tr>
-                            <td>{{ $no++ }}</td>
-                            <td>{{ $item->nisn }}</td>
-                            <td>{{ $item->nama ?? 'Nama tidak tersedia' }}</td>
-                            <td>{{ $item->kelas }}</td>
-                            <td>{{ $item->jurusan }}</td>
-                            <td>
-                                @if ($hasSholatToday)
-                                    <span class="badge badge-success">
-                                        <i class="fas fa-check-circle"></i> Sudah Sholat
-                                    </span>
-                                @else
-                                    <span class="badge badge-danger">
-                                        <i class="fas fa-times-circle"></i> Belum Sholat
-                                    </span>
-                                @endif
-                            </td>
-                        </tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $item->nisn }}</td>
+        <td>{{ $item->user->name ?? 'Tidak ada user' }}</td>
+        <td>{{ $item->kelas }}</td>
+        <td>{{ $item->jurusan }}</td>
+        <td>
+            @if ($item->status_sholat)
+                <span class="badge bg-success">Sudah Sholat</span>
+            @else
+                <span class="badge bg-danger">Belum Sholat</span>
+            @endif
+        </td>
+    </tr>
                     @endforeach
                 </tbody>
 
