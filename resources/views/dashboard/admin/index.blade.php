@@ -61,7 +61,7 @@
 
 </div>
 
-{{-- ===== JADWAL SHOLAT (TIDAK DIHAPUS) ===== --}}
+{{-- ===== JADWAL SHOLAT ===== --}}
 <div class="row">
     <div class="col-lg-6 col-12">
         <div class="card card-primary card-outline">
@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const today = new Date().toISOString().split('T')[0];
 
+    // ============ FETCH JADWAL SHOLAT ============
     fetch(`https://api.aladhan.com/v1/timings/${today}?latitude=-0.227819&longitude=100.626617&method=20`)
         .then(res => res.json())
         .then(data => {
@@ -121,11 +122,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const now = new Date();
 
             // isi tabel jadwal
-            subuh.innerText    = t.Fajr;
-            dzuhur.innerText   = t.Dhuhr;
-            ashar.innerText    = t.Asr;
-            maghrib.innerText  = t.Maghrib;
-            isya.innerText     = t.Isha;
+            document.getElementById('subuh').innerText = t.Fajr;
+            document.getElementById('dzuhur').innerText = t.Dhuhr;
+            document.getElementById('ashar').innerText = t.Asr;
+            document.getElementById('maghrib').innerText = t.Maghrib;
+            document.getElementById('isya').innerText = t.Isha;
 
             // cari sholat terdekat
             const prayers = [
@@ -148,13 +149,45 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            nextPrayer.innerText = next;
+            document.getElementById('nextPrayer').innerText = next;
+        })
+        .catch(err => {
+            console.error('Gagal fetch jadwal sholat:', err);
+            document.getElementById('nextPrayer').innerText = 'Error';
         });
 
-    // 🔸 Dummy (tinggal ganti dari database)
-    belumAbsensi.innerText = 18;
-    sudahAbsensi.innerText = 22;
-    totalSiswa.innerText   = 40;
+    // ============ FETCH DATA ABSENSI REAL ============
+    fetchAbsensiData();
+
+    // Refresh data absensi setiap 30 detik
+    setInterval(fetchAbsensiData, 30000);
+    
+    function fetchAbsensiData() {
+        fetch('/api/dashboard-absensi', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('totalSiswa').innerText = data.data.total_siswa || 0;
+                document.getElementById('sudahAbsensi').innerText = data.data.sudah_absensi || 0;
+                document.getElementById('belumAbsensi').innerText = data.data.belum_absensi || 0;
+            } else {
+                console.error('Gagal ambil data absensi:', data.message);
+            }
+        })
+        .catch(err => {
+            console.error('Error fetch absensi:', err);
+            // Fallback ke 0 jika error
+            document.getElementById('totalSiswa').innerText = '0';
+            document.getElementById('sudahAbsensi').innerText = '0';
+            document.getElementById('belumAbsensi').innerText = '0';
+        });
+    }
 });
 </script>
 @endpush

@@ -7,16 +7,6 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Data Siswa</h3>
                 <div>
-                    <!-- Tombol Aksi Massal yang Sederhana -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success" onclick="updateAllStatus('sudah')">
-                            <i class="fas fa-check-circle"></i> Sudah Sholat Semua
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="updateAllStatus('belum')">
-                            <i class="fas fa-times-circle"></i> Belum Sholat Semua
-                        </button>
-                    </div>
-
                     <!-- Tombol Tambah Siswa -->
                     <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary ml-2">
                         <i class="nav-icon fas fa-plus"></i>
@@ -34,7 +24,6 @@
                         <th>Nama</th>
                         <th>Kelas</th>
                         <th>Jurusan</th>
-                        <th>Status Sholat Hari Ini</th>
                     </tr>
                 </thead>
 
@@ -56,11 +45,6 @@
         <td>{{ $item->kelas }}</td>
         <td>{{ $item->jurusan }}</td>
         <td>
-            @if ($item->status_sholat)
-                <span class="badge bg-success">Sudah Sholat</span>
-            @else
-                <span class="badge bg-danger">Belum Sholat</span>
-            @endif
         </td>
     </tr>
                     @endforeach
@@ -73,7 +57,6 @@
                         <th>Nama</th>
                         <th>Kelas</th>
                         <th>Jurusan</th>
-                        <th>Status Sholat Hari Ini</th>
                     </tr>
                 </tfoot>
             </table>
