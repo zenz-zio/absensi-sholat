@@ -9,6 +9,9 @@ class Siswa extends Model
 {
     use HasFactory;
 
+    protected $table = 'siswas';
+
+
     protected $fillable = [
         'user_id', // WAJIB biar relasi ke users jalan
         'nisn',
@@ -34,5 +37,10 @@ class Siswa extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id'); // kasih foreign key biar jelas
+    }
+
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class, 'id_siswa', 'id_siswa');
     }
 }
