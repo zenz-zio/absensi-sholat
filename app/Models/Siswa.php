@@ -11,7 +11,6 @@ class Siswa extends Model
 
     protected $table = 'siswas';
 
-
     protected $fillable = [
         'user_id',
         'nisn',
@@ -27,7 +26,7 @@ class Siswa extends Model
     ];
 
     /**
-     * Relasi ke user (ambil nama, email, dll)
+     * Relasi ke user
      */
     public function user()
     {
@@ -37,9 +36,13 @@ class Siswa extends Model
     /**
      * Relasi ke absensi
      */
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class, 'id_siswa', 'id');
+    }
 
     /**
-     * Accessor biar bisa pakai ->nama langsung
+     * Accessor nama
      */
     public function getNamaAttribute()
     {
@@ -47,15 +50,10 @@ class Siswa extends Model
     }
 
     /**
-     * Accessor tambahan (opsional tapi berguna)
+     * Accessor email
      */
     public function getEmailAttribute()
     {
         return $this->user->email ?? '-';
-    }
-
-    public function absensis()
-    {
-        return $this->hasMany(Absensi::class, 'id_siswa', 'id_siswa');
     }
 }

@@ -10,42 +10,73 @@ use Illuminate\Support\Facades\Auth;
 class AbsensiController extends Controller
 {
     /**
-     * Simpan absensi
+     * Simpan absensi manual
      */
     public function store(Request $request)
     {
         $request->validate([
-            'id_siswa' => 'required|exists:siswas,id',
-            'status' => 'required|in:Sholat,Tidak Sholat',
+            'id_siswa'   => 'required|exists:siswas,id',
+            'status'     => 'required|in:Sholat,Tidak Sholat',
             'keterangan' => 'nullable|string'
         ]);
 
         Absensi::create([
             'id_recorder' => Auth::id(),
-            'id_siswa' => $request->id_siswa,
-            'tanggal' => now()->toDateString(),
-            'status' => $request->status,
-            'jam_masuk' => $request->status == 'Sholat' ? now()->format('H:i') : null,
-            'keterangan' => $request->keterangan,
+            'id_siswa'    => $request->id_siswa,
+            'tanggal'     => now(),
+            'status'      => $request->status,
+            'jam_masuk'   => $request->status == 'Sholat'
+                                ? now()->format('H:i:s')
+                                : null,
+            'keterangan'  => $request->keterangan,
         ]);
 
         return back()->with('success', 'Absensi berhasil disimpan');
     }
 
     /**
-     * ADMIN - lihat semua absensi
+     * ADMIN - semua absensi
      */
     public function index()
     {
-        $absensis = Absensi::with(['siswa.user', 'recorder'])
-            ->latest('tanggal')
+        $absensis = Absensi::with(['siswa', 'recorder'])
+            ->latest()
             ->get();
 
-        return view('dashboard.admin.absensi.index', [
-            'absensis' => $absensis
-        ]);
+        return view('dashboard.admin.absensi.index', compact('absensis'));
     }
 
+    /**
+     * SISWA - riwayat absensi
+     */
+    public function riwayat()
+    {
+        // user login
+        $user = Auth::user();
+
+        // cari siswa berdasarkan user_id
+        $siswa = Siswa::where('user_id', $user->id)->first();
+
+        // jika siswa tidak ditemukan
+        if (!$siswa) {
+
+            $absensis = collect();
+
+        } else {
+
+            // ambil data absensi
+            $absensis = Absensi::with('siswa')
+                ->where('id_siswa', $siswa->id)
+                ->latest()
+                ->get();
+        }
+
+        return view('dashboard.user.riwayat', compact('absensis'));
+    }
+
+    /**
+     * Scan QR Absensi
+     */
     public function scanAbsensi(Request $request)
     {
         $request->validate([
@@ -57,17 +88,17 @@ class AbsensiController extends Controller
 
         $siswa = null;
 
-        // Cari berdasarkan QR Code
+        // cari QR
         if ($request->filled('qr_code')) {
             $siswa = Siswa::where('qr_code', $request->qr_code)->first();
         }
 
-        // Kalau QR tidak ketemu, coba emergency code
+        // cari emergency code
         if (!$siswa && $request->filled('emergency_code')) {
             $siswa = Siswa::where('emergency_code', $request->emergency_code)->first();
         }
 
-        // Jika siswa tidak ditemukan
+        // jika tidak ditemukan
         if (!$siswa) {
             return response()->json([
                 'success' => false,
@@ -75,17 +106,29 @@ class AbsensiController extends Controller
             ], 404);
         }
 
-        // Simpan absensi
+        // cek sudah absen hari ini
+        $cek = Absensi::where('id_siswa', $siswa->id)
+            ->whereDate('tanggal', now())
+            ->first();
+
+        if ($cek) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Siswa sudah absen hari ini.',
+            ], 400);
+        }
+
+        // simpan absensi
         $absensi = Absensi::create([
             'id_recorder' => $request->id_recorder,
             'id_siswa'    => $siswa->id,
-            'tanggal'     => now()->toDateString(),
+            'tanggal'     => now(),
             'status'      => 'Sholat',
-            'jam_masuk'   => now()->toTimeString(),
+            'jam_masuk'   => now()->format('H:i:s'),
             'keterangan'  => $request->keterangan,
         ]);
 
-        // Hapus QR dan emergency code setelah dipakai
+        // hapus qr setelah dipakai
         $siswa->update([
             'qr_code'        => null,
             'emergency_code' => null,
@@ -93,8 +136,8 @@ class AbsensiController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Absensi berhasil disimpan.',
-            'data'    => $absensi,
-        ], 201);
+            'message' => 'Absensi berhasil.',
+            'data'    => $absensi
+        ]);
     }
 }
