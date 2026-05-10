@@ -55,10 +55,19 @@ class AbsensiController extends Controller
             'keterangan'     => 'nullable|string|max:255',
         ]);
 
-        $siswa = Siswa::where('qr_code', $request->qr_code)
-            ->orWhere('emergency_code', $request->emergency_code)
-            ->first();
+        $siswa = null;
 
+        // Cari berdasarkan QR Code
+        if ($request->filled('qr_code')) {
+            $siswa = Siswa::where('qr_code', $request->qr_code)->first();
+        }
+
+        // Kalau QR tidak ketemu, coba emergency code
+        if (!$siswa && $request->filled('emergency_code')) {
+            $siswa = Siswa::where('emergency_code', $request->emergency_code)->first();
+        }
+
+        // Jika siswa tidak ditemukan
         if (!$siswa) {
             return response()->json([
                 'success' => false,
@@ -66,6 +75,7 @@ class AbsensiController extends Controller
             ], 404);
         }
 
+        // Simpan absensi
         $absensi = Absensi::create([
             'id_recorder' => $request->id_recorder,
             'id_siswa'    => $siswa->id,
@@ -73,6 +83,12 @@ class AbsensiController extends Controller
             'status'      => 'Sholat',
             'jam_masuk'   => now()->toTimeString(),
             'keterangan'  => $request->keterangan,
+        ]);
+
+        // Hapus QR dan emergency code setelah dipakai
+        $siswa->update([
+            'qr_code'        => null,
+            'emergency_code' => null,
         ]);
 
         return response()->json([
