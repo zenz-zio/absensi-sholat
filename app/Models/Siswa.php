@@ -13,9 +13,8 @@ class Siswa extends Model
 
 
     protected $fillable = [
-        'user_id', // WAJIB biar relasi ke users jalan
+        'user_id',
         'nisn',
-        'nama', // tambahin ini biar bisa ditampilkan
         'kelas',
         'jurusan',
         'qr_code',
@@ -27,16 +26,36 @@ class Siswa extends Model
         'qr_expires_at' => 'datetime',
     ];
 
-    // Relasi ke absensi
-    public function absensi()
-    {
-        return $this->hasMany(Absensi::class, 'id_siswa', 'id');
-    }
-
-    // Relasi ke user
+    /**
+     * Relasi ke user (ambil nama, email, dll)
+     */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); // kasih foreign key biar jelas
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relasi ke absensi
+     */
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class, 'id_siswa');
+    }
+
+    /**
+     * Accessor biar bisa pakai ->nama langsung
+     */
+    public function getNamaAttribute()
+    {
+        return $this->user->name ?? '-';
+    }
+
+    /**
+     * Accessor tambahan (opsional tapi berguna)
+     */
+    public function getEmailAttribute()
+    {
+        return $this->user->email ?? '-';
     }
 
     public function absensis()

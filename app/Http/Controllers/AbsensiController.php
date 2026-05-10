@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
+    /**
+     * Simpan absensi
+     */
     public function store(Request $request)
     {
         $request->validate([
             'id_siswa' => 'required|exists:siswas,id',
             'status' => 'required|in:Sholat,Tidak Sholat',
+            'keterangan' => 'nullable|string'
         ]);
 
         Absensi::create([
@@ -28,13 +32,18 @@ class AbsensiController extends Controller
         return back()->with('success', 'Absensi berhasil disimpan');
     }
 
+    /**
+     * ADMIN - lihat semua absensi
+     */
     public function index()
     {
-        $absensis = Absensi::with('siswa')
-            ->orderBy('tanggal', 'desc')
+        $absensis = Absensi::with(['siswa.user', 'recorder'])
+            ->latest('tanggal')
             ->get();
 
-        return view('dashboard.admin.absensi.index', compact('absensis'));
+        return view('dashboard.admin.absensi.index', [
+            'absensis' => $absensis
+        ]);
     }
 
     public function scanAbsensi(Request $request)
