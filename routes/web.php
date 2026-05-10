@@ -24,8 +24,8 @@ Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
     })->name('dashboard');
 
     Route::get('/scan', function () {
-    return view('dashboard.admin.scanQR.scan');
-})->name('ScanQR.index');
+        return view('dashboard.admin.scanQR.scan');
+    })->name('ScanQR.index');
 
 
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
@@ -44,7 +44,7 @@ Route::prefix('guru')->name('admin.')->middleware('guru')->group(function () {
     Route::delete('/absensi/delete/{id}', [AbsensiController::class, 'destroy'])->name('absensi.delete');
 });
 
-Route::prefix('siswa')->name('user.')->middleware('auth','siswa')->group(function () {
+Route::prefix('siswa')->name('user.')->middleware('auth', 'siswa')->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::get('/riwayat-absensi', [UserController::class, 'riwayat'])->name('riwayat');
     Route::get('/profil', [UserController::class, 'profil'])->name('profil');
@@ -52,4 +52,8 @@ Route::prefix('siswa')->name('user.')->middleware('auth','siswa')->group(functio
     Route::post('/profil/edit', [UserController::class, 'updateProfil'])->name('profil.update');
     Route::get('/qr-absen', [SiswaController::class, 'generate'])->name('qr.absen');
     Route::post('/force-generate-qr', [SiswaController::class, 'forceGenerate'])->name('force-generate');
+});
+
+Route::get('/', function () {
+    return view('welcome');
 });
