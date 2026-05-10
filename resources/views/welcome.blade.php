@@ -483,12 +483,10 @@
     </div>
 
     <script>
-        // Konfigurasi API (Padang)
         const LAT = -0.227819;
         const LNG = 100.626617;
         const METHOD = 20;
 
-        // Data mapping sholat + ikon menarik
         const prayersList = [{
                 key: 'Imsak',
                 label: 'Imsak',
@@ -534,7 +532,6 @@
         ];
         const order = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
-        // DOM elements
         const loadingEl = document.getElementById('loadingPrayers');
         const errorEl = document.getElementById('errorMessage');
         const prayerContentEl = document.getElementById('prayerContent');
@@ -613,17 +610,17 @@
                 card.className =
                     `prayer-card ${p.bgColor} border ${p.borderColor} rounded-2xl p-5 shadow-md transition-all duration-300 flex justify-between items-center cursor-default backdrop-blur-sm`;
                 card.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="bg-white rounded-full p-2 shadow-sm">
-                            <iconify-icon icon="${p.icon}" width="28" class="text-gray-700"></iconify-icon>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-500 uppercase">${p.label}</p>
-                            <p class="text-2xl font-mono font-bold text-gray-800">${waktu}</p>
-                        </div>
-                    </div>
-                    <iconify-icon icon="mdi:chevron-right-circle" width="24" class="text-emerald-400 opacity-60"></iconify-icon>
-                `;
+            <div class="flex items-center gap-3">
+                <div class="bg-white rounded-full p-2 shadow-sm">
+                    <iconify-icon icon="${p.icon}" width="28" class="text-gray-700"></iconify-icon>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-500 uppercase">${p.label}</p>
+                    <p class="text-2xl font-mono font-bold text-gray-800">${waktu}</p>
+                </div>
+            </div>
+            <iconify-icon icon="mdi:chevron-right-circle" width="24" class="text-emerald-400 opacity-60"></iconify-icon>
+        `;
                 prayerGrid.appendChild(card);
             });
         }
@@ -686,7 +683,6 @@
 
         retryBtn.addEventListener('click', fetchSchedule);
 
-        // Scroll reveal observer
         const revealElements = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -700,73 +696,21 @@
         });
         revealElements.forEach(el => observer.observe(el));
 
-        // ============= MODAL LOGIC =============
-        const loginModal = document.getElementById('loginModal');
-        const registerModal = document.getElementById('registerModal');
-        const closeBtns = document.querySelectorAll('.close-modal');
 
-        function openModal(modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            const container = modal.querySelector('.modal-container');
-            container.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            const container = modal.querySelector('.modal-container');
-            container.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const modal = btn.closest('.fixed.inset-0');
-                if (modal) closeModal(modal);
-            });
+        document.getElementById('loginBtn')?.addEventListener('click', () => {
+            window.location.href = '/login';
         });
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) closeModal(loginModal);
-            if (e.target === registerModal) closeModal(registerModal);
+        document.getElementById('registerBtn')?.addEventListener('click', () => {
+            window.location.href = '/register';
         });
-
-        // Tombol buka modal
-        document.getElementById('loginBtn')?.addEventListener('click', () => openModal(loginModal));
-        document.getElementById('heroLoginBtn')?.addEventListener('click', () => openModal(loginModal));
-        document.getElementById('registerBtn')?.addEventListener('click', () => openModal(registerModal));
-        document.getElementById('heroRegisterBtn')?.addEventListener('click', () => openModal(registerModal));
-        document.getElementById('ctaRegisterBtn')?.addEventListener('click', () => openModal(registerModal));
-
-        // Switch antar modal
-        document.getElementById('switchToRegisterFromLogin')?.addEventListener('click', () => {
-            closeModal(loginModal);
-            openModal(registerModal);
+        document.getElementById('heroLoginBtn')?.addEventListener('click', () => {
+            window.location.href = '/login';
         });
-        document.getElementById('switchToLoginFromRegister')?.addEventListener('click', () => {
-            closeModal(registerModal);
-            openModal(loginModal);
+        document.getElementById('heroRegisterBtn')?.addEventListener('click', () => {
+            window.location.href = '/register';
         });
-
-        // Simulasi submit form (tanpa backend)
-        document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            if (!email) return alert('Email wajib diisi');
-            alert(`✅ Login berhasil (demo)! Selamat datang, ${email}. Fitur absensi akan segera hadir.`);
-            closeModal(loginModal);
-        });
-
-        document.getElementById('registerForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('regFullname').value;
-            const email = document.getElementById('regEmail').value;
-            const kelas = document.getElementById('regClass').value;
-            if (!name || !email || !kelas) return alert('Harap lengkapi data pendaftaran');
-            alert(`🎉 Pendaftaran berhasil! Halo ${name} (${kelas}). Silakan login untuk memulai absensi sholat.`);
-            closeModal(registerModal);
-            openModal(loginModal);
+        document.getElementById('ctaRegisterBtn')?.addEventListener('click', () => {
+            window.location.href = '/register';
         });
 
         fetchSchedule();
