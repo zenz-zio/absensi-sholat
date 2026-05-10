@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,8 +46,55 @@ class AbsensiController extends Controller
         ]);
     }
 
-    /**
-     * USER - riwayat absensi sendiri
-     */
-   
+    public function scanAbsensi(Request $request)
+    {
+        $request->validate([
+            'id_recorder'    => 'required',
+            'qr_code'        => 'nullable|string',
+            'emergency_code' => 'nullable|string',
+            'keterangan'     => 'nullable|string|max:255',
+        ]);
+
+        $siswa = null;
+
+        // Cari berdasarkan QR Code
+        if ($request->filled('qr_code')) {
+            $siswa = Siswa::where('qr_code', $request->qr_code)->first();
+        }
+
+        // Kalau QR tidak ketemu, coba emergency code
+        if (!$siswa && $request->filled('emergency_code')) {
+            $siswa = Siswa::where('emergency_code', $request->emergency_code)->first();
+        }
+
+        // Jika siswa tidak ditemukan
+        if (!$siswa) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Siswa tidak ditemukan.',
+            ], 404);
+        }
+
+        // Simpan absensi
+        $absensi = Absensi::create([
+            'id_recorder' => $request->id_recorder,
+            'id_siswa'    => $siswa->id,
+            'tanggal'     => now()->toDateString(),
+            'status'      => 'Sholat',
+            'jam_masuk'   => now()->toTimeString(),
+            'keterangan'  => $request->keterangan,
+        ]);
+
+        // Hapus QR dan emergency code setelah dipakai
+        $siswa->update([
+            'qr_code'        => null,
+            'emergency_code' => null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Absensi berhasil disimpan.',
+            'data'    => $absensi,
+        ], 201);
+    }
 }

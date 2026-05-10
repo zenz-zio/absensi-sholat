@@ -9,6 +9,9 @@ class Siswa extends Model
 {
     use HasFactory;
 
+    protected $table = 'siswas';
+
+
     protected $fillable = [
         'user_id',
         'nisn',
@@ -34,10 +37,6 @@ class Siswa extends Model
     /**
      * Relasi ke absensi
      */
-    public function absensis()
-    {
-        return $this->hasMany(Absensi::class, 'id_siswa');
-    }
 
     /**
      * Accessor biar bisa pakai ->nama langsung
@@ -53,5 +52,10 @@ class Siswa extends Model
     public function getEmailAttribute()
     {
         return $this->user->email ?? '-';
+    }
+
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class, 'id_siswa', 'id_siswa');
     }
 }
