@@ -22,11 +22,9 @@
             0% {
                 background-position: 0% 50%;
             }
-
             50% {
                 background-position: 100% 50%;
             }
-
             100% {
                 background-position: 0% 50%;
             }
@@ -47,11 +45,9 @@
             0% {
                 transform: translateY(0px) rotate(0deg);
             }
-
             50% {
                 transform: translateY(-15px) rotate(2deg);
             }
-
             100% {
                 transform: translateY(0px) rotate(0deg);
             }
@@ -111,11 +107,9 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4);
             }
-
             70% {
                 box-shadow: 0 0 0 12px rgba(46, 125, 50, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(46, 125, 50, 0);
             }
@@ -166,6 +160,19 @@
             background: #3b9b6d;
             border-radius: 20px;
         }
+
+        /* Gallery & Image Style */
+        .gallery-img {
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.2);
+        }
+        .mockup-badge {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f5 100%);
+        }
     </style>
 </head>
 
@@ -209,33 +216,44 @@
         <iconify-icon icon="mdi:book-open-page-variant" width="50" class="text-amber-600"></iconify-icon>
     </div>
 
-    <!-- Hero Section dengan animasi fade-in -->
+    <!-- Hero Section dengan animasi fade-in dan Ilustrasi Gambar -->
     <section class="pt-28 pb-12 md:pt-36 md:pb-20 px-5 text-center max-w-6xl mx-auto relative z-10">
         <div
             class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-5 py-2 text-emerald-700 text-sm font-semibold mb-6 shadow-sm border border-emerald-100 reveal visible">
             <iconify-icon icon="mingcute:school-line" width="20"></iconify-icon>
             <span>Solusi Absensi Sholat Terintegrasi untuk Sekolah & Madrasah</span>
         </div>
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight reveal">
-            <span class="bg-gradient-to-r from-emerald-800 to-teal-500 bg-clip-text text-transparent">Catat
-                Kehadiran</span><br>
-            Sholat Siswa & Guru
-        </h1>
-        <p class="text-gray-700 text-lg max-w-2xl mx-auto mt-6 leading-relaxed reveal delay-75">
-            Platform digital untuk memantau kedisiplinan ibadah sholat di lingkungan sekolah. <br>Jadwal, laporan
-            otomatis, dan motivasi jamaah.
-        </p>
-        <div class="flex flex-wrap justify-center gap-5 mt-10 reveal delay-100">
-            <button id="heroRegisterBtn"
-                class="bg-gradient-to-r from-emerald-700 to-teal-600 text-white px-8 py-3.5 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-1">
-                <iconify-icon icon="mdi:calendar-check" width="22"></iconify-icon>
-                Mulai Absensi Sekarang
-            </button>
-            <button id="heroLoginBtn"
-                class="border-2 border-emerald-600 text-emerald-700 px-8 py-3.5 rounded-full font-bold hover:bg-emerald-50 transition-all duration-300 flex items-center gap-2 transform hover:scale-105">
-                <iconify-icon icon="mdi:login-variant"></iconify-icon>
-                Login Dashboard
-            </button>
+        <div class="grid md:grid-cols-2 gap-8 items-center text-left mt-4">
+            <div class="text-center md:text-left">
+                <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight reveal">
+                    <span class="bg-gradient-to-r from-emerald-800 to-teal-500 bg-clip-text text-transparent">Catat
+                        Kehadiran</span><br>
+                    Sholat Siswa & Guru
+                </h1>
+                <p class="text-gray-700 text-lg max-w-xl mt-6 leading-relaxed reveal delay-75">
+                    Platform digital untuk memantau kedisiplinan ibadah sholat di lingkungan sekolah. <br>Jadwal, laporan
+                    otomatis, dan motivasi jamaah.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-5 mt-8 reveal delay-100">
+                    <button id="heroRegisterBtn"
+                        class="bg-gradient-to-r from-emerald-700 to-teal-600 text-white px-8 py-3.5 rounded-full font-bold shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-1">
+                        <iconify-icon icon="mdi:calendar-check" width="22"></iconify-icon>
+                        Mulai Absensi Sekarang
+                    </button>
+                    <button id="heroLoginBtn"
+                        class="border-2 border-emerald-600 text-emerald-700 px-8 py-3.5 rounded-full font-bold hover:bg-emerald-50 transition-all duration-300 flex items-center gap-2 transform hover:scale-105">
+                        <iconify-icon icon="mdi:login-variant"></iconify-icon>
+                        Login Dashboard
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-center reveal delay-75">
+                <div class="relative w-72 h-72 md:w-80 md:h-80 rounded-full bg-white/40 backdrop-blur-sm shadow-2xl overflow-hidden border-4 border-white/60 flex items-center justify-center">
+                    <img src="https://i.ibb.co.com/C55dNtLm/download-16.jpg" alt="Absensi Sholat Siswa" class="w-full h-full object-cover mix-blend-multiply opacity-90 hover:opacity-100 transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/20 to-transparent"></div>
+                    <iconify-icon icon="mdi:camera-iris" width="48" class="absolute bottom-3 right-3 text-white/80 drop-shadow-md"></iconify-icon>
+                </div>
+            </div>
         </div>
         <!-- Statistic mockup menarik -->
         <div class="flex flex-wrap justify-center gap-6 mt-16 reveal delay-150">
@@ -257,11 +275,91 @@
         </div>
     </section>
 
+    <!-- NEW SECTION: Galeri Absensi Sholat (Gambar Berbasis Absensi) -->
+    <section class="max-w-6xl mx-auto px-5 py-8 pb-12 relative z-10">
+        <div class="text-center mb-8 reveal">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800">📸 <span class="text-emerald-600">Galeri Absensi Sholat</span></h2>
+            <p class="text-gray-500 mt-2 max-w-2xl mx-auto">Simak bagaimana Sholatify Sekolah membantu ribuan siswa & guru dalam mencatat ibadah dengan mudah</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
+            <!-- Card Gambar 1: Absensi dengan QR Code -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                <div class="h-48 overflow-hidden relative bg-emerald-100">
+                    <img src="https://placehold.co/600x400/1e5c3a/ffffff?text=QR+Code+Absensi+Masjid" alt="QR Code Absensi Masjid Sekolah" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-emerald-800/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:qrcode-scan" width="14" class="inline mr-1"></iconify-icon> Scan & Hadir</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:qrcode" class="text-emerald-600"></iconify-icon> Absensi QR Code</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Siswa cukup scan QR Code di area musholla sekolah, absensi otomatis tercatat realtime.</p>
+                    <div class="mt-3 flex justify-between text-xs text-emerald-600 font-medium"><span>✅ 1.200+ absensi/hari</span><span>⚡ Akurasi 99%</span></div>
+                </div>
+            </div>
+            <!-- Card Gambar 2: Laporan Rekap Dashboard -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal delay-100">
+                <div class="h-48 overflow-hidden relative bg-teal-100">
+                    <img src="https://placehold.co/600x400/2c6e4e/ffffff?text=Dashboard+Laporan+Absensi" alt="Dashboard Laporan Absensi Sholat" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-teal-800/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:chart-box" width="14" class="inline mr-1"></iconify-icon> Rekap Digital</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:file-chart" class="text-teal-600"></iconify-icon> Laporan Otomatis</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Rekap kehadiran per kelas & individu, bisa diunduh PDF/Excel untuk raport ibadah siswa.</p>
+                    <div class="mt-3 flex justify-between text-xs text-teal-600 font-medium"><span>📊 98% Guru puas</span><span>🕋 Cetak cepat</span></div>
+                </div>
+            </div>
+            <!-- Card Gambar 3: Notifikasi & Pengingat -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal delay-150">
+                <div class="h-48 overflow-hidden relative bg-amber-50">
+                    <img src="https://placehold.co/600x400/3c7a5e/ffffff?text=Notifikasi+Waktu+Sholat" alt="Notifikasi Sholat via WhatsApp" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-amber-700/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:bell" width="14" class="inline mr-1"></iconify-icon> Pengingat Cerdas</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:whatsapp" class="text-green-600"></iconify-icon> Notifikasi Otomatis</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Integrasi WhatsApp & Telegram, siswa mendapat pengingat jadwal sholat 15 menit sebelumnya.</p>
+                    <div class="mt-3 flex justify-between text-xs text-amber-600 font-medium"><span>📱 Kirim 5.000+ notifikasi/hari</span><span>⏰ Tepat waktu</span></div>
+                </div>
+            </div>
+            <!-- Card Gambar 4: Verifikasi Lokasi GPS -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                <div class="h-48 overflow-hidden relative bg-slate-100">
+                    <img src="https://placehold.co/600x400/1f6e43/ffffff?text=Verifikasi+Lokasi+GPS" alt="Verifikasi lokasi GPS absensi" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-slate-800/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:map-marker" width="14" class="inline mr-1"></iconify-icon> Geotagging</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:map-marker-check" class="text-emerald-600"></iconify-icon> Verifikasi Lokasi</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Absensi hanya bisa dilakukan di radius sekolah, mencegah kecurangan dan memastikan siswa hadir di tempat ibadah.</p>
+                </div>
+            </div>
+            <!-- Card Gambar 5: Profil Santri/Siswa dan Poin Ibadah -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal delay-100">
+                <div class="h-48 overflow-hidden relative bg-emerald-50">
+                    <img src="https://placehold.co/600x400/276749/ffffff?text=Rapor+Ibadah+Siswa" alt="Rapor Ibadah dan Poin Sholat" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-emerald-800/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:crown" width="14" class="inline mr-1"></iconify-icon> Leaderboard</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:medal" class="text-yellow-600"></iconify-icon> Penghargaan Kedisiplinan</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Siswa dengan kehadiran sholat sempurna mendapat reward digital & sertifikat dari sekolah.</p>
+                    <div class="mt-2 flex gap-2"><span class="bg-emerald-100 rounded-full px-2 py-0.5 text-xs">🏅 350+ siswa berprestasi</span></div>
+                </div>
+            </div>
+            <!-- Card Gambar 6: Multi Platform -->
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal delay-150">
+                <div class="h-48 overflow-hidden relative bg-indigo-50">
+                    <img src="https://placehold.co/600x400/3a6b4d/ffffff?text=Mobile+App+Absensi" alt="Aplikasi Mobile Absensi Sholat" class="w-full h-full object-cover gallery-img">
+                    <div class="absolute top-2 left-2 bg-indigo-800/80 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"><iconify-icon icon="mdi:cellphone" width="14" class="inline mr-1"></iconify-icon> Mobile Friendly</div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-bold text-xl text-gray-800 flex items-center gap-2"><iconify-icon icon="mdi:web" class="text-indigo-600"></iconify-icon> Akses Web & Mobile</h3>
+                    <p class="text-gray-600 mt-2 text-sm">Guru dan siswa dapat absen melalui dashboard web atau PWA. Fleksibel dari HP/laptop.</p>
+                    <div class="mt-3 flex justify-between text-xs"><span>📱 24/7 akses</span><span>🌙 Support mode gelap</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Jadwal Sholat Section dengan animasi scroll -->
     <section class="max-w-6xl mx-auto px-5 py-8 pb-20 relative z-10">
         <div class="text-center mb-10 reveal">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800">🕌 Jadwal Sholat<span
-                    class="text-emerald-600"> Hari Ini</span></h2>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800">🕌 Jadwal Sholat<span class="text-emerald-600"> Hari Ini</span></h2>
             <p class="text-gray-500 mt-2">Lokasi: Padang, Sumatera Barat • Metode Kemenag RI 2025</p>
             <div id="dateInfo"
                 class="flex justify-center items-center gap-3 bg-white/70 rounded-full w-fit mx-auto px-5 py-2 mt-4 shadow-md backdrop-blur-sm border border-emerald-100">
@@ -396,89 +494,27 @@
         </div>
     </footer>
 
-    <!-- ========== MODAL LOGIN ========== -->
-    <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop"
-        style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
-        <div
-            class="modal-container bg-white rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all overflow-hidden">
+    <!-- MODAL (tetap sama seperti desain awal) -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
+        <div class="modal-container bg-white rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all overflow-hidden">
             <div class="bg-gradient-to-r from-emerald-700 to-teal-600 px-6 py-4 flex justify-between items-center">
-                <h3 class="text-white text-xl font-bold flex items-center gap-2">
-                    <iconify-icon icon="mdi:login"></iconify-icon> Masuk ke Akun
-                </h3>
+                <h3 class="text-white text-xl font-bold flex items-center gap-2"><iconify-icon icon="mdi:login"></iconify-icon> Masuk ke Akun</h3>
                 <button class="close-modal text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
             </div>
             <div class="p-6">
                 <form id="loginForm">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-2">Email / NIS</label>
-                        <input type="email" id="loginEmail" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 outline-none transition"
-                            placeholder="contoh@sekolah.sch.id">
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2">Password</label>
-                        <input type="password" id="loginPassword" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 outline-none transition"
-                            placeholder="********">
-                    </div>
-                    <button type="submit"
-                        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                        <iconify-icon icon="mdi:login-variant"></iconify-icon> Masuk
-                    </button>
+                    <div class="mb-4"><label class="block text-gray-700 font-semibold mb-2">Email / NIS</label><input type="email" id="loginEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"></div>
+                    <div class="mb-5"><label class="block text-gray-700 font-semibold mb-2">Password</label><input type="password" id="loginPassword" required class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"></div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2"><iconify-icon icon="mdi:login-variant"></iconify-icon> Masuk</button>
                 </form>
-                <p class="text-center text-sm text-gray-500 mt-4">Belum punya akun? <button
-                        id="switchToRegisterFromLogin" class="text-emerald-600 font-semibold hover:underline">Daftar
-                        sekarang</button></p>
+                <p class="text-center text-sm text-gray-500 mt-4">Belum punya akun? <button id="switchToRegisterFromLogin" class="text-emerald-600 font-semibold hover:underline">Daftar sekarang</button></p>
             </div>
         </div>
     </div>
-
-    <!-- ========== MODAL REGISTER ========== -->
-    <div id="registerModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop"
-        style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
-        <div
-            class="modal-container bg-white rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all overflow-hidden">
-            <div class="bg-gradient-to-r from-teal-700 to-emerald-600 px-6 py-4 flex justify-between items-center">
-                <h3 class="text-white text-xl font-bold flex items-center gap-2">
-                    <iconify-icon icon="mdi:account-plus"></iconify-icon> Daftar Akun Baru
-                </h3>
-                <button class="close-modal text-white hover:text-gray-200 text-2xl leading-none">&times;</button>
-            </div>
-            <div class="p-6">
-                <form id="registerForm">
-                    <div class="mb-3">
-                        <label class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label>
-                        <input type="text" id="regFullname" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"
-                            placeholder="Ahmad Faiz">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-gray-700 font-semibold mb-1">Email</label>
-                        <input type="email" id="regEmail" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"
-                            placeholder="siswa@sekolah.sch.id">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-gray-700 font-semibold mb-1">Kelas / Asal Sekolah</label>
-                        <input type="text" id="regClass" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"
-                            placeholder="XII MIPA 1 / SMA Negeri 1">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-1">Password</label>
-                        <input type="password" id="regPassword" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-400"
-                            placeholder="Minimal 6 karakter">
-                    </div>
-                    <button type="submit"
-                        class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                        <iconify-icon icon="mdi:account-check"></iconify-icon> Daftar Sekarang
-                    </button>
-                </form>
-                <p class="text-center text-sm text-gray-500 mt-4">Sudah punya akun? <button
-                        id="switchToLoginFromRegister" class="text-emerald-600 font-semibold hover:underline">Login
-                        disini</button></p>
-            </div>
+    <div id="registerModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-backdrop" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
+        <div class="modal-container bg-white rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all overflow-hidden">
+            <div class="bg-gradient-to-r from-teal-700 to-emerald-600 px-6 py-4 flex justify-between items-center"><h3 class="text-white text-xl font-bold flex items-center gap-2"><iconify-icon icon="mdi:account-plus"></iconify-icon> Daftar Akun Baru</h3><button class="close-modal text-white hover:text-gray-200 text-2xl leading-none">&times;</button></div>
+            <div class="p-6"><form id="registerForm"><div class="mb-3"><label class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label><input type="text" id="regFullname" required class="w-full px-4 py-2 border rounded-xl"></div><div class="mb-3"><label class="block text-gray-700 font-semibold mb-1">Email</label><input type="email" id="regEmail" required class="w-full px-4 py-2 border rounded-xl"></div><div class="mb-3"><label class="block text-gray-700 font-semibold mb-1">Kelas / Asal Sekolah</label><input type="text" id="regClass" required class="w-full px-4 py-2 border rounded-xl"></div><div class="mb-4"><label class="block text-gray-700 font-semibold mb-1">Password</label><input type="password" id="regPassword" required class="w-full px-4 py-2 border rounded-xl"></div><button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-2"><iconify-icon icon="mdi:account-check"></iconify-icon> Daftar Sekarang</button></form><p class="text-center text-sm text-gray-500 mt-4">Sudah punya akun? <button id="switchToLoginFromRegister" class="text-emerald-600 font-semibold hover:underline">Login disini</button></p></div>
         </div>
     </div>
 
@@ -486,52 +522,8 @@
         const LAT = -0.227819;
         const LNG = 100.626617;
         const METHOD = 20;
-
-        const prayersList = [{
-                key: 'Imsak',
-                label: 'Imsak',
-                icon: 'mdi:weather-night',
-                bgColor: 'bg-indigo-50/80',
-                borderColor: 'border-indigo-200'
-            },
-            {
-                key: 'Fajr',
-                label: 'Subuh',
-                icon: 'mdi:weather-sunset-up',
-                bgColor: 'bg-amber-50/80',
-                borderColor: 'border-amber-200'
-            },
-            {
-                key: 'Dhuhr',
-                label: 'Dzuhur',
-                icon: 'mdi:sun-clock',
-                bgColor: 'bg-orange-50/80',
-                borderColor: 'border-orange-200'
-            },
-            {
-                key: 'Asr',
-                label: 'Ashar',
-                icon: 'mdi:weather-sunset-down',
-                bgColor: 'bg-yellow-50/80',
-                borderColor: 'border-yellow-200'
-            },
-            {
-                key: 'Maghrib',
-                label: 'Maghrib',
-                icon: 'mdi:weather-sunset',
-                bgColor: 'bg-rose-50/80',
-                borderColor: 'border-rose-200'
-            },
-            {
-                key: 'Isha',
-                label: 'Isya',
-                icon: 'mdi:night-sky',
-                bgColor: 'bg-slate-100/80',
-                borderColor: 'border-slate-300'
-            }
-        ];
+        const prayersList = [{ key: 'Imsak', label: 'Imsak', icon: 'mdi:weather-night', bgColor: 'bg-indigo-50/80', borderColor: 'border-indigo-200' },{ key: 'Fajr', label: 'Subuh', icon: 'mdi:weather-sunset-up', bgColor: 'bg-amber-50/80', borderColor: 'border-amber-200' },{ key: 'Dhuhr', label: 'Dzuhur', icon: 'mdi:sun-clock', bgColor: 'bg-orange-50/80', borderColor: 'border-orange-200' },{ key: 'Asr', label: 'Ashar', icon: 'mdi:weather-sunset-down', bgColor: 'bg-yellow-50/80', borderColor: 'border-yellow-200' },{ key: 'Maghrib', label: 'Maghrib', icon: 'mdi:weather-sunset', bgColor: 'bg-rose-50/80', borderColor: 'border-rose-200' },{ key: 'Isha', label: 'Isya', icon: 'mdi:night-sky', bgColor: 'bg-slate-100/80', borderColor: 'border-slate-300' }];
         const order = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-
         const loadingEl = document.getElementById('loadingPrayers');
         const errorEl = document.getElementById('errorMessage');
         const prayerContentEl = document.getElementById('prayerContent');
@@ -543,178 +535,23 @@
         const nextPrayerName = document.getElementById('nextPrayerName');
         const nextPrayerTimeSpan = document.getElementById('nextPrayerTime');
         const timeRemainingSpan = document.getElementById('timeRemaining');
-
-        // Helper: WIB time
-        function getCurrentWIBMinutes() {
-            const now = new Date();
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'Asia/Jakarta',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            });
-            const parts = formatter.formatToParts(now);
-            let hour = 0,
-                minute = 0;
-            for (const p of parts) {
-                if (p.type === 'hour') hour = parseInt(p.value);
-                if (p.type === 'minute') minute = parseInt(p.value);
-            }
-            return hour * 60 + minute;
-        }
-
-        function timeToMin(timeStr) {
-            const [h, m] = timeStr.split(':').map(Number);
-            return h * 60 + m;
-        }
-
-        function formatRemaining(currentMin, targetMin, isTomorrow = false) {
-            let diff = targetMin - currentMin;
-            if (isTomorrow && diff < 0) diff += 1440;
-            if (diff <= 0) return "Waktu sholat! Segera absen.";
-            const hours = Math.floor(diff / 60);
-            const mins = diff % 60;
-            if (hours === 0) return `${mins} menit lagi`;
-            if (hours > 0 && mins === 0) return `${hours} jam lagi`;
-            return `${hours} jam ${mins} menit lagi`;
-        }
-
-        function getNextPrayerData(timings, nowMin) {
-            for (let p of order) {
-                const t = timings[p];
-                if (t && timeToMin(t) > nowMin) {
-                    return {
-                        key: p,
-                        timeStr: t,
-                        isTomorrow: false,
-                        targetMin: timeToMin(t)
-                    };
-                }
-            }
-            const first = order[0];
-            const firstTime = timings[first];
-            return {
-                key: first,
-                timeStr: firstTime,
-                isTomorrow: true,
-                targetMin: timeToMin(firstTime) + 1440
-            };
-        }
-
-        function renderPrayerCards(timings) {
-            prayerGrid.innerHTML = '';
-            prayersList.forEach(p => {
-                let waktu = timings[p.key] || '--:--';
-                if (p.key === 'Imsak' && !timings.Imsak) waktu = '--:--';
-                const card = document.createElement('div');
-                card.className =
-                    `prayer-card ${p.bgColor} border ${p.borderColor} rounded-2xl p-5 shadow-md transition-all duration-300 flex justify-between items-center cursor-default backdrop-blur-sm`;
-                card.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="bg-white rounded-full p-2 shadow-sm">
-                    <iconify-icon icon="${p.icon}" width="28" class="text-gray-700"></iconify-icon>
-                </div>
-                <div>
-                    <p class="text-xs font-bold text-gray-500 uppercase">${p.label}</p>
-                    <p class="text-2xl font-mono font-bold text-gray-800">${waktu}</p>
-                </div>
-            </div>
-            <iconify-icon icon="mdi:chevron-right-circle" width="24" class="text-emerald-400 opacity-60"></iconify-icon>
-        `;
-                prayerGrid.appendChild(card);
-            });
-        }
-
-        let countdownInterval = null;
-
-        function updateCountdown(timings) {
-            if (!timings) return;
-            const nowMin = getCurrentWIBMinutes();
-            const next = getNextPrayerData(timings, nowMin);
-            let displayName = prayersList.find(p => p.key === next.key)?.label || next.key;
-            if (next.key === 'Fajr') displayName = 'Subuh';
-            nextPrayerName.innerText = displayName;
-            nextPrayerTimeSpan.innerText = next.timeStr;
-            const remainingText = formatRemaining(nowMin, next.isTomorrow ? next.targetMin : next.targetMin, next
-                .isTomorrow);
-            timeRemainingSpan.innerHTML =
-                `<iconify-icon icon="mdi:progress-clock" width="16"></iconify-icon> ${remainingText}`;
-        }
-
-        function startTimer(timings) {
-            if (countdownInterval) clearInterval(countdownInterval);
-            updateCountdown(timings);
-            countdownInterval = setInterval(() => updateCountdown(timings), 30000);
-        }
-
-        async function fetchSchedule() {
-            try {
-                loadingEl.classList.remove('hidden');
-                errorEl.classList.add('hidden');
-                prayerContentEl.classList.add('hidden');
-                const today = new Date().toISOString().split('T')[0];
-                const url =
-                    `https://api.aladhan.com/v1/timings/${today}?latitude=${LAT}&longitude=${LNG}&method=${METHOD}`;
-                const resp = await fetch(url);
-                if (!resp.ok) throw new Error('Gagal mengambil data');
-                const json = await resp.json();
-                if (json.code !== 200 || !json.data) throw new Error('Format API error');
-                const timings = json.data.timings;
-                const greg = json.data.date.readable;
-                const hijriData = json.data.date.hijri;
-                gregorianSpan.innerText = greg || new Date().toLocaleDateString('id-ID', {
-                    dateStyle: 'full'
-                });
-                hijriSpan.innerText = `${hijriData.day} ${hijriData.month.en} ${hijriData.year}`;
-                renderPrayerCards(timings);
-                startTimer(timings);
-                loadingEl.classList.add('hidden');
-                prayerContentEl.classList.remove('hidden');
-                errorEl.classList.add('hidden');
-            } catch (err) {
-                console.error(err);
-                loadingEl.classList.add('hidden');
-                errorDetailSpan.innerText = err.message || 'Tidak bisa memuat jadwal sholat, periksa koneksi internet.';
-                errorEl.classList.remove('hidden');
-                prayerContentEl.classList.add('hidden');
-                if (countdownInterval) clearInterval(countdownInterval);
-            }
-        }
-
-        retryBtn.addEventListener('click', fetchSchedule);
-
-        const revealElements = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        revealElements.forEach(el => observer.observe(el));
-
-
-        document.getElementById('loginBtn')?.addEventListener('click', () => {
-            window.location.href = '/login';
-        });
-        document.getElementById('registerBtn')?.addEventListener('click', () => {
-            window.location.href = '/register';
-        });
-        document.getElementById('heroLoginBtn')?.addEventListener('click', () => {
-            window.location.href = '/login';
-        });
-        document.getElementById('heroRegisterBtn')?.addEventListener('click', () => {
-            window.location.href = '/register';
-        });
-        document.getElementById('ctaRegisterBtn')?.addEventListener('click', () => {
-            window.location.href = '/register';
-        });
-
+        function getCurrentWIBMinutes() { const now = new Date(); const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: false }); const parts = formatter.formatToParts(now); let h=0,m=0; for(const p of parts){ if(p.type==='hour') h=parseInt(p.value); if(p.type==='minute') m=parseInt(p.value); } return h*60+m; }
+        function timeToMin(timeStr){ const [h,m]=timeStr.split(':').map(Number); return h*60+m; }
+        function formatRemaining(currentMin,targetMin,isTomorrow=false){ let diff=targetMin-currentMin; if(isTomorrow && diff<0) diff+=1440; if(diff<=0) return "Waktu sholat! Segera absen."; const hours=Math.floor(diff/60); const mins=diff%60; if(hours===0) return `${mins} menit lagi`; if(hours>0 && mins===0) return `${hours} jam lagi`; return `${hours} jam ${mins} menit lagi`; }
+        function getNextPrayerData(timings, nowMin){ for(let p of order){ const t=timings[p]; if(t && timeToMin(t)>nowMin) return { key:p, timeStr:t, isTomorrow:false, targetMin:timeToMin(t) }; } const first=order[0]; const firstTime=timings[first]; return { key:first, timeStr:firstTime, isTomorrow:true, targetMin:timeToMin(firstTime)+1440 }; }
+        function renderPrayerCards(timings){ prayerGrid.innerHTML=''; prayersList.forEach(p=>{ let waktu=timings[p.key]||'--:--'; if(p.key==='Imsak' && !timings.Imsak) waktu='--:--'; const card=document.createElement('div'); card.className=`prayer-card ${p.bgColor} border ${p.borderColor} rounded-2xl p-5 shadow-md flex justify-between items-center backdrop-blur-sm`; card.innerHTML=`<div class="flex items-center gap-3"><div class="bg-white rounded-full p-2 shadow-sm"><iconify-icon icon="${p.icon}" width="28"></iconify-icon></div><div><p class="text-xs font-bold text-gray-500 uppercase">${p.label}</p><p class="text-2xl font-mono font-bold text-gray-800">${waktu}</p></div></div><iconify-icon icon="mdi:chevron-right-circle" width="24" class="text-emerald-400"></iconify-icon>`; prayerGrid.appendChild(card); }); }
+        let countdownInterval=null;
+        function updateCountdown(timings){ if(!timings) return; const nowMin=getCurrentWIBMinutes(); const next=getNextPrayerData(timings,nowMin); let displayName=prayersList.find(p=>p.key===next.key)?.label||next.key; if(next.key==='Fajr') displayName='Subuh'; nextPrayerName.innerText=displayName; nextPrayerTimeSpan.innerText=next.timeStr; const remainingText=formatRemaining(nowMin,next.isTomorrow?next.targetMin:next.targetMin,next.isTomorrow); timeRemainingSpan.innerHTML=`<iconify-icon icon="mdi:progress-clock" width="16"></iconify-icon> ${remainingText}`; }
+        function startTimer(timings){ if(countdownInterval) clearInterval(countdownInterval); updateCountdown(timings); countdownInterval=setInterval(()=>updateCountdown(timings),30000); }
+        async function fetchSchedule(){ try{ loadingEl.classList.remove('hidden'); errorEl.classList.add('hidden'); prayerContentEl.classList.add('hidden'); const today=new Date().toISOString().split('T')[0]; const url=`https://api.aladhan.com/v1/timings/${today}?latitude=${LAT}&longitude=${LNG}&method=${METHOD}`; const resp=await fetch(url); if(!resp.ok) throw new Error('Gagal mengambil data'); const json=await resp.json(); if(json.code!==200||!json.data) throw new Error('Format API error'); const timings=json.data.timings; const greg=json.data.date.readable; const hijriData=json.data.date.hijri; gregorianSpan.innerText=greg||new Date().toLocaleDateString('id-ID',{dateStyle:'full'}); hijriSpan.innerText=`${hijriData.day} ${hijriData.month.en} ${hijriData.year}`; renderPrayerCards(timings); startTimer(timings); loadingEl.classList.add('hidden'); prayerContentEl.classList.remove('hidden'); errorEl.classList.add('hidden'); }catch(err){ console.error(err); loadingEl.classList.add('hidden'); errorDetailSpan.innerText=err.message||'Gagal memuat'; errorEl.classList.remove('hidden'); prayerContentEl.classList.add('hidden'); if(countdownInterval) clearInterval(countdownInterval); } }
+        retryBtn.addEventListener('click',fetchSchedule);
+        const revealElements=document.querySelectorAll('.reveal'); const observer=new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); },{threshold:0.1}); revealElements.forEach(el=>observer.observe(el));
+        document.getElementById('loginBtn')?.addEventListener('click',()=>window.location.href='/login');
+        document.getElementById('registerBtn')?.addEventListener('click',()=>window.location.href='/register');
+        document.getElementById('heroLoginBtn')?.addEventListener('click',()=>window.location.href='/login');
+        document.getElementById('heroRegisterBtn')?.addEventListener('click',()=>window.location.href='/register');
+        document.getElementById('ctaRegisterBtn')?.addEventListener('click',()=>window.location.href='/register');
         fetchSchedule();
     </script>
 </body>
-
 </html>
