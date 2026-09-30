@@ -18,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'guru' => CheckAdmin::class,
             'siswa' => CheckUser::class,
         ]);
+
+        // Percayakan header dari proxy (ngrok, dsb) supaya Laravel tahu
+        // request aslinya HTTPS meskipun tunnel ke localhost pakai HTTP.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

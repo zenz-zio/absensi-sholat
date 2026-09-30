@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> @yield('title') | Dashboard</title>
 
 {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
@@ -66,7 +67,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Siswa</a></li>
+                                <li class="breadcrumb-item"><a href="#">Admin</a></li>
                                 <li class="breadcrumb-item active">@yield('title')</li>
                             </ol>
                         </div>

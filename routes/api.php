@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/scan-sholat', [AbsensiController::class, 'scanAbsensi'])->name('api.scan.sholat');
+Route::post('/scan-sholat-nisn', [AbsensiController::class, 'absenByNisn']);

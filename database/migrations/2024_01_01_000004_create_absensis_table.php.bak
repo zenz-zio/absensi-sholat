@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('absensis', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('siswa_id')->constrained('siswas')->cascadeOnDelete();
+            $table->date('tanggal');
+            $table->enum('sesi', ['subuh', 'dzuhur', 'ashar', 'maghrib', 'isya', 'jumat']);
+            $table->dateTime('waktu_absen');
+            $table->enum('status', ['hadir', 'telat'])->default('hadir');
+            $table->string('metode', 30)->default('fingerprint_simulasi');
+            $table->timestamps();
+
+            // 1 siswa hanya bisa absen 1x per sesi per hari
+            $table->unique(['siswa_id', 'tanggal', 'sesi']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('absensis');
+    }
+};

@@ -19,10 +19,12 @@ class Siswa extends Model
         'qr_code',
         'emergency_code',
         'qr_expires_at',
+        'face_descriptor',
     ];
 
     protected $casts = [
         'qr_expires_at' => 'datetime',
+        'face_descriptor' => 'array', // otomatis json_encode/decode
     ];
 
     /**
@@ -55,5 +57,10 @@ class Siswa extends Model
     public function getEmailAttribute()
     {
         return $this->user->email ?? '-';
+    }
+
+    public function hasFaceRegistered(): bool
+    {
+        return ! empty($this->face_descriptor);
     }
 }

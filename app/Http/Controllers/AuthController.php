@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     // ================= LOGIN =================
+
     public function showLogin()
     {
         return view('auth.login');
@@ -28,22 +29,41 @@ class AuthController extends Controller
                 'email.email' => 'Format email tidak valid',
                 'password.required' => 'Password wajib diisi',
                 'password.min' => 'Password minimal 6 karakter',
-            ],
+            ]
         );
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        // Cek apakah email terdaftar
+        $user = User::where('email', $request->email)->first();
 
-            return redirect()->route('home')->with('success', 'Login berhasil');
+        if (!$user) {
+            return back()
+                ->withErrors([
+                    'email' => 'Email tidak terdaftar',
+                ])
+                ->withInput();
         }
 
-        // JIKA GAGAL
-        return back()
-            ->withErrors(['email' => 'Email atau password salah'])
-            ->withInput();
+        // Cek apakah password benar
+        if (!Hash::check($request->password, $user->password)) {
+            return back()
+                ->withErrors([
+                    'password' => 'Password salah',
+                ])
+                ->withInput();
+        }
+
+        // Login berhasil
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        return redirect()
+            ->route('home')
+            ->with('success', 'Login berhasil');
     }
 
     // ================= REGISTER =================
+
     public function showRegister()
     {
         return view('auth.register');
@@ -51,18 +71,16 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // 1. Validasi semua field dari form (termasuk data siswa)
         $data = $request->validate(
             [
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6|confirmed',
-                'nisn' => 'required|digits:10|unique:siswas,nisn', // NISN 10 digit, unik di tabel siswa
+                'nisn' => 'required|digits:10|unique:siswas,nisn',
                 'kelas' => 'required|in:10,11,12',
-                'jurusan' => 'required|in:IPA,IPS,RPL,TKJ',
+                'jurusan' => 'required|in:DKV,BC,RPL,TKJ',
             ],
             [
-                // Custom pesan error (bisa disesuaikan)
                 'name.required' => 'Nama wajib diisi',
                 'email.required' => 'Email wajib diisi',
                 'email.email' => 'Format email tidak valid',
@@ -75,33 +93,35 @@ class AuthController extends Controller
                 'nisn.unique' => 'NISN sudah terdaftar',
                 'kelas.required' => 'Kelas wajib dipilih',
                 'jurusan.required' => 'Jurusan wajib dipilih',
-            ],
+            ]
         );
 
-        // 2. Simpan ke tabel users (dapatkan objek user yang baru)
+        // Simpan user
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => 'user', // atau 'siswa' tergantung role di sistemmu
+            'role' => 'siswa',
         ]);
 
-        // 3. Simpan data ke tabel siswa (relasi one-to-one)
+        // Simpan data siswa
         Siswa::create([
             'user_id' => $user->id,
             'nisn' => $data['nisn'],
             'kelas' => $data['kelas'],
             'jurusan' => $data['jurusan'],
-            'qr_code' => null, // optional, bisa di-generate nanti
-            'emergency_code' => null, // optional
-            'qr_expires_at' => null, // optional
+            'qr_code' => null,
+            'emergency_code' => null,
+            'qr_expires_at' => null,
         ]);
 
-        // 4. Redirect ke halaman login dengan pesan sukses
-        return redirect()->route('login')->with('success', 'Registrasi berhasil, silakan login');
+        return redirect()
+            ->route('login')
+            ->with('success', 'Registrasi berhasil, silakan login');
     }
 
     // ================= LOGOUT =================
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -109,6 +129,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Berhasil logout');
+        return redirect('/login')
+            ->with('success', 'Berhasil logout');
     }
 }
